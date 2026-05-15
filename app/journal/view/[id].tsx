@@ -1,0 +1,157 @@
+import { Button } from "@/components/ui/Button";
+import { useJournalStore } from "@/zustand/journal.store";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
+// import {
+//   AlertDialog,
+//   AlertDialogAction,
+//   AlertDialogCancel,
+//   AlertDialogContent,
+//   AlertDialogDescription,
+//   AlertDialogFooter,
+//   AlertDialogHeader,
+//   AlertDialogMedia,
+//   AlertDialogTitle,
+//   AlertDialogTrigger,
+// } from "@/components/ui/alert-dialog";
+import Appbar from "@/components/Appbar";
+import { M3Input } from "@/components/ui/M3Input";
+import { M3View } from "@/components/ui/M3View";
+import React from "react";
+import { StyleSheet, Text, ToastAndroid, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+const ViewJournalScreen = () => {
+  const { id }: { id: string } = useLocalSearchParams();
+  const { journals, updateJournal, deleteJournal } = useJournalStore();
+
+  const journalId = Number(id);
+  const journal = journals.find((j) => j.id === journalId);
+
+  const [content, setContent] = useState("");
+
+  useEffect(() => {
+    if (journal) {
+      setContent(journal.content);
+    }
+  }, [journal]);
+
+  if (!journal) {
+    return (
+      <View className="flex-1 flex-col items-center justify-center">
+        <Text>Journal not found.</Text>
+        <View>
+        <Button onPress={() => {
+            
+        }} title="Go Back"></Button>
+        </View>
+      </View>
+    );
+  }
+
+  const handleSave = () => {
+    updateJournal(journalId, { content });
+    ToastAndroid.show("Journal updated!", ToastAndroid.SHORT);
+    // window.history.back();
+  };
+
+  const handleDelete = () => {
+    deleteJournal(journalId);
+    ToastAndroid.show("Journal deleted!", ToastAndroid.SHORT);
+    // window.history.back();
+  };
+
+  const dateStr = new Date(journal.dateMs).toLocaleDateString(undefined, {
+    weekday: "short",
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+
+  return (
+    <M3View className="flex-1">
+      <Appbar title={dateStr} right={
+        <MaterialCommunityIcons name="delete" color={"#fff"} size={24} onPress={handleDelete} />
+      }/>
+          {/* <View className="h4 mb-0">{dateStr}</View> */}
+        {/* <DeleteBtnDialog handleOk={handleDelete} /> */}
+
+        <SafeAreaView className="flex-1" edges={["bottom"]}>
+
+        
+      <View className="h-80 p-4">
+      <M3Input
+      multiline={true}
+      numberOfLines={8}
+      textAlignVertical="top"
+        className="border rounded-xl h-80 flex-1 text-base resize-none p-4 whitespace-pre-wrap leading-relaxed shadow-sm w-full"
+        value={content}
+        onChangeText={(value) => setContent(value)}
+      />
+
+      <View className="mt-4 flex justify-end">
+        <Button onPress={handleSave} title="Save Changes">
+          {/* <Save className="w-4 h-4 mr-2" />  */}
+        </Button>
+      </View>
+      </View></SafeAreaView>
+    </M3View>
+  );
+};
+
+export default ViewJournalScreen;
+
+const styles = StyleSheet.create({});
+
+// const DeleteBtnDialog = ({ handleOk }: { handleOk: () => void }) => {
+//   const [open, setOpen] = useState(false);
+//   useEffect(() => {
+//     const onHashChange = () => {
+//       setOpen(window.location.hash === "#dialogJournalDelete");
+//     };
+
+//     window.addEventListener("hashchange", onHashChange);
+//     return () => window.removeEventListener("hashchange", onHashChange);
+//   }, []);
+//   return (
+//     <AlertDialog
+//       open={open}
+//       onOpenChange={(openState) => {
+//         if (openState) {
+//           window.location.hash = "#dialogJournalDelete";
+//         } else {
+//           if (window.location.hash === "#dialogJournalDelete") {
+//             history.back();
+//           }
+//         }
+//       }}
+//     >
+//       <AlertDialogTrigger asChild>
+//         <Button
+//           variant={"destructive"}
+//           onClick={() => {
+//             window.location.hash = "dialogJournalDelete";
+//           }}
+//         >
+//           <Trash2 /> Delete
+//         </Button>
+//       </AlertDialogTrigger>
+//       <AlertDialogContent size="sm">
+//         <AlertDialogHeader>
+//           <AlertDialogMedia className="bg-primary">
+//             <Trash2 />
+//           </AlertDialogMedia>
+//           <AlertDialogTitle>Delete</AlertDialogTitle>
+//           <AlertDialogDescription>
+//             Are You Sure To Delete? It cannot be undone!
+//           </AlertDialogDescription>
+//         </AlertDialogHeader>
+//         <AlertDialogFooter>
+//           <AlertDialogCancel>Cancel</AlertDialogCancel>
+//           <AlertDialogAction onClick={handleOk}>Delete</AlertDialogAction>
+//         </AlertDialogFooter>
+//       </AlertDialogContent>
+//     </AlertDialog>
+//   );
+// };
