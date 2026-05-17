@@ -34,7 +34,7 @@ const ViewPillsScreen = () => {
         <View className="flex-1">
           <Appbar title={targetPill.name} />
           <View className="flex-1 px-2">
-            <Text className="text-sm my-3">{`(Mark pills already taken to track progress)`}</Text>
+            <Text variant="titleSmall" className="my-3">{`(Mark pills already taken to track progress)`}</Text>
             {/* <View className="">
           <View className="flex items-center gap-2">
             <Button

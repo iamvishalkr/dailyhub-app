@@ -1,7 +1,5 @@
 import { useState } from "react";
-import {
-    Card,
-} from "react-native-paper";
+import { Card } from "react-native-paper";
 // import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 // import { Input } from "@/components/ui/input";
 import { View } from "react-native";
@@ -33,16 +31,14 @@ const InventoryStep = ({
 
   return (
     <View className="">
-      <Card>
+      <Card mode="outlined">
+        <Card.Title title="Medication Inventory"></Card.Title>
         <Card.Content>
-          <Card.Title title="Medication Inventory" ></Card.Title>
           <View className="">
             <View>
-              <Text>
-                Current total amount (in {formData.unit || "units"})
-              </Text>
+              <Text variant="titleMedium" className="mb-2">Current total amount (in {formData.unit || "units"})</Text>
               <M3Input
-              className="border-b"
+                className="border-b"
                 inputMode="numeric"
                 value={
                   formData.inventory === undefined
@@ -67,7 +63,9 @@ const InventoryStep = ({
             Previous
           </Button>
 
-          <Button mode="contained" onPress={handleNext}>Finish</Button>
+          <Button mode="contained" onPress={handleNext}>
+            Finish
+          </Button>
         </Card.Actions>
       </Card>
     </View>

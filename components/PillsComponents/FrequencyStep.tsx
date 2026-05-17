@@ -26,10 +26,6 @@ interface RadioOption {
   description: string;
 }
 
-interface RadioSelectorProps {
-  selectedValue: OptionType;
-  onValueChange: (value: OptionType) => void;
-}
 
 const FrequencyStep = ({
   setCurrentStep,
@@ -67,9 +63,9 @@ const FrequencyStep = ({
 
   return (
     <View className="flex-1">
-      <Card>
-        <Card.Content>
+      <Card mode="outlined">
           <Card.Title title="How often do you take this?"></Card.Title>
+        <Card.Content>
           <View className="mt-4 text-left flex flex-col gap-3">
             <View style={styles.container}>
               {options.map((item) => {
@@ -107,8 +103,8 @@ const FrequencyStep = ({
 
                     {/* Right Section */}
                     <View style={styles.rightContainer}>
-                      <Text style={styles.titleText}>{item.title}</Text>
-                      <Text style={styles.descriptionText}>
+                      <Text variant="titleMedium" style={styles.titleText}>{item.title}</Text>
+                      <Text variant="titleSmall" style={styles.descriptionText}>
                         {item.description}
                       </Text>
                     </View>
@@ -208,13 +204,13 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   titleText: {
-    fontSize: 16,
+    // fontSize: 16,
     // fontWeight: "bold",
     // color: "#000",
     marginBottom: 2,
   },
   descriptionText: {
-    fontSize: 14,
+    // fontSize: 14,
     color: "#666",
   },
 });

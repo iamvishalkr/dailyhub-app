@@ -1,8 +1,7 @@
 import { useJournalStore } from "@/zustand/journal.store";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
-import { Button, Surface } from "react-native-paper";
+import { Button, IconButton, Surface } from "react-native-paper";
 // import {
 //   AlertDialog,
 //   AlertDialogAction,
@@ -75,9 +74,9 @@ const ViewJournalScreen = () => {
       <Appbar
         title={dateStr}
         right={
-          <MaterialCommunityIcons
-            name="delete"
-            color={"#fff"}
+          <IconButton
+            mode="contained-tonal"
+            icon={"delete"}
             size={24}
             onPress={handleDelete}
           />

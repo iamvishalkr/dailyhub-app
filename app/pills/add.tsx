@@ -20,6 +20,8 @@ import { useState } from "react";
 import { useUserStore } from "@/zustand/user.store";
 
 import Appbar from "@/components/Appbar";
+import { showToast } from "@/utils/showToast";
+import { useNavigation } from "expo-router";
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Surface, Text } from "react-native-paper";
@@ -37,25 +39,7 @@ const AddScreen = () => {
   } as PillsType);
   const { pillsList, addPill } = usePillStore();
   const { user } = useUserStore();
-
-  const steps = [
-    {
-      id: 1,
-      name: "Medication",
-    },
-    {
-      id: 2,
-      name: "Frequency",
-    },
-    {
-      id: 3,
-      name: "Dose & Time",
-    },
-    {
-      id: 4,
-      name: "Inventory",
-    },
-  ];
+  const navigation = useNavigation();
 
   const stepTask = ["Medication", "Frequency", "Dose & Time", "Inventory"];
 
@@ -69,12 +53,15 @@ const AddScreen = () => {
       ...formData,
       id: formData.startDate !== 0 ? formData.startDate : Date.now(),
     });
-    // toast.success("New Medication Tracked!");
-    if (pillsList.length <= 0) {
-      //   setisCongratsOpen(true);
-    } else {
-      //   window.history.back();
+    showToast("New Medication Tracked!");
+    if (navigation.canGoBack()) {
+        navigation.goBack();
     }
+    // if (pillsList.length <= 0) {
+    //   //   setisCongratsOpen(true);
+    // } else {
+    //   //   window.history.back();
+    // }
   };
 
   return (
@@ -93,7 +80,7 @@ const AddScreen = () => {
             }}
           ></View> */}
         <View className="mt-4 mb-2">
-          <Text className="text-xl">
+          <Text variant="titleMedium" style={{fontSize:18}}>
             {`Step : ${currentStep}/${stepTask.length} - ${
               stepTask[currentStep - 1]
             }`}

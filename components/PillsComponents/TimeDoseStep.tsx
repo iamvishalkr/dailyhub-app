@@ -138,16 +138,12 @@ const TimeDoseStep = ({
   return (
     <SafeAreaView style={{ flex: 1 }} edges={["bottom"]}>
       <ScrollView className="flex-1">
-        <Card>
+        <Card mode="outlined">
+          <Card.Title title="Time and Dose"></Card.Title>
           <Card.Content>
-            <Card.Title title="Time and Dose"></Card.Title>
             <View className="">
-              <Text>Select Start Date</Text>
-              {/* <TouchableOpacity>
-              <ThemedIcon name="pen" />
-              <Text>Select Start Date</Text>
-            </TouchableOpacity> */}
-              <View>
+              <Text variant="titleMedium">Select Start Date</Text>
+              <View className="mt-2">
                 <Button
                   style={{ width: "100%" }}
                   mode="contained"
@@ -162,50 +158,22 @@ const TimeDoseStep = ({
               {/* ====== DAILY ====== */}
               {formData.frequency.type === "daily" && (
                 <View>
-                  <Text className="my-4">Add Daily Slots</Text>
-                  <View className="mb-3 border-on-surface border p-2 rounded-xl">
-                    <View className="flex-row items-center">
-                      <Text className="flex-1">Dose</Text>
-                      <M3Input
-                        className="border-b mb-2 flex-1"
-                        inputMode="numeric"
-                        value={String(shift.dose)}
-                        onChangeText={(value) => {
-                          seterrorMsg("");
-                          setshift({ ...shift, dose: Number(value) });
-                        }}
-                        placeholder="Enter dose"
-                      />
-                    </View>
-                    <View className="flex-row items-center">
-                      <Text className="flex-1">Time</Text>
-                      <Button
-                        style={{ flex: 1 }}
-                        mode="outlined"
-                        onPress={showTimepicker}
-                      >
-                        {shift.time}
-                      </Button>
-                    </View>
-                    <View>
-                      <Button
-                        mode="contained"
-                        style={{ width: "100%", marginTop: 8 }}
-                        onPress={handleAddDaily}
-                      >
-                        Add
-                      </Button>
-                    </View>
-                  </View>
+                  <Text variant="titleMedium" className="my-4">
+                    Add Daily Slots
+                  </Text>
                 </View>
               )}
 
               {/* ====== INTERVAL ====== */}
               {formData.frequency.type === "interval" && (
                 <View>
-                  <Text className="mt-4">Add Interval Slots</Text>
-                  <View className="flex-row items-center gap-4">
-                    <Text className="flex-nowrap">I take Every</Text>
+                  <Text variant="titleMedium" className="mt-4 mb-2">
+                    Add Interval Slots
+                  </Text>
+                  <View className="flex-row items-center gap-4 mb-2">
+                    <Text variant="titleSmall" className="flex-nowrap">
+                      I take Every
+                    </Text>
                     {/* <Text className=""></Text> */}
                     <M3Input
                       className="border-b flex-1"
@@ -237,81 +205,31 @@ const TimeDoseStep = ({
                         }}
                       >
                         {["hours", "days", "weeks"].map((u) => (
-                          <Picker.Item key={u} label={u} value={u} />
+                          <Picker.Item
+                            key={u}
+                            label={u}
+                            value={u}
+                            style={{ fontFamily: "SpaceMono" }}
+                          />
                         ))}
                       </Picker>
                     </View>
                   </View>
-
-                  <View className="gap-3 border border-on-background rounded-xl p-2 bg-transparent">
-                    <View className="flex-row items-center ">
-                      <Text className="flex-1">Dose</Text>
-                      <M3Input
-                        className="border-b flex-1"
-                        inputMode="numeric"
-                        value={String(shift.dose)}
-                        onChangeText={(value) => {
-                          seterrorMsg("");
-                          setshift({ ...shift, dose: Number(value) });
-                        }}
-                        placeholder="Enter dose"
-                      />
-                    </View>
-                    <View className="flex-row items-center">
-                      <Text className="flex-1">Time</Text>
-                      <Button
-                        style={{ flex: 1 }}
-                        mode="outlined"
-                        onPress={showTimepicker}
-                      >
-                        {shift.time}
-                      </Button>
-                    </View>
-                    <Button
-                      mode="contained"
-                      style={{ width: "100%" }}
-                      onPress={handleAddInterval}
-                    >
-                      Add
-                    </Button>
-                  </View>
-                  {/* <hr /> */}
-                  {/* <View>
-                    {formData.frequency.shifts.length > 0 &&
-                      formData.frequency.shifts.map((sh, i) => (
-                        <Card
-                          key={i}
-                          className="flex flex-row p-2 justify-between items-center mt-4"
-                        >
-                          <View>
-                            <Text className="me-6">
-                              {i + 1}
-                              {")."} Dose: {sh.dose} {formData.unit}
-                            </Text>
-                            <Text>Time: {sh.time}</Text>
-                          </View>
-                          <Button
-                            onPress={() => {
-                              removeShift(i);
-                            }}
-                            title="Remove"
-                          ></Button>
-                        </Card>
-                      ))}
-                  </View> */}
                 </View>
               )}
 
               {/* ====== SPECIFIC ====== */}
               {formData.frequency.type === "specific" && (
                 <View>
-                  <Text className="my-4">Add Specific Slots</Text>
-                  <View className="mb-2">
-                    <Text className="flex items-center my-4">
+                  <Text variant="titleMedium" className="mt-4">
+                    Add Specific Slots
+                  </Text>
+                  <View className="pt-2">
+                    <Text variant="titleSmall" className="mb-2">
                       I take on: (select day(s))
                     </Text>
 
-                    <View className="gap-1">
+                    <View className="gap-1 mb-4">
                       {[
                         "Sunday",
                         "Monday",
@@ -321,9 +239,8 @@ const TimeDoseStep = ({
                         "Friday",
                         "Saturday",
                       ].map((d, i) => (
-                        <View>
+                        <View key={i}>
                           <Button
-                            key={i}
                             mode={
                               specificDaysArr.includes(i)
                                 ? "contained"
@@ -349,89 +266,86 @@ const TimeDoseStep = ({
                       ))}
                     </View>
                   </View>
-
-                  <View className="gap-3 border border-on-background rounded-xl p-2 bg-transparent">
-                    <View className="flex-row items-center ">
-                      <Text className="flex-1">Dose</Text>
-                      <M3Input
-                        className="border-b flex-1"
-                        inputMode="numeric"
-                        value={String(shift.dose)}
-                        onChangeText={(value) => {
-                          seterrorMsg("");
-                          setshift({ ...shift, dose: Number(value) });
-                        }}
-                        placeholder="Enter dose"
-                      />
-                    </View>
-                    <View className="flex-row items-center">
-                      <Text className="flex-1">Time</Text>
-                      <Button
-                        style={{ flex: 1 }}
-                        mode="outlined"
-                        onPress={showTimepicker}
-                      >
-                        {shift.time}
-                      </Button>
-                    </View>
-                    <Button
-                      mode="contained"
-                      style={{ width: "100%" }}
-                      onPress={handleAddSpecific}
-                    >
-                      Add
-                    </Button>
-                  </View>
-                  {/* <hr /> */}
-                  {/* <View>
-                    {formData.frequency.shifts.length > 0 &&
-                      formData.frequency.shifts.map((sh, i) => (
-                        <Card
-                          key={i}
-                          className="flex flex-row p-2 justify-between items-center mt-4"
-                        >
-                          <View>
-                            <Text className="me-6">
-                              {i + 1}
-                              {")."} Dose: {sh.dose} {formData.unit}
-                            </Text>
-                            <Text>Time: {sh.time}</Text>
-                          </View>
-                          <Button
-                            onPress={() => {
-                              removeShift(i);
-                            }}
-                            title="Remove"
-                          ></Button>
-                        </Card>
-                      ))}
-                  </View> */}
                 </View>
               )}
 
+              {/* ADD DOSE CARD */}
+              <Card mode="outlined">
+                <Card.Content>
+                  <View className="flex-row items-center ">
+                    <Text variant="titleSmall" className="flex-1">
+                      Dose
+                    </Text>
+                    <M3Input
+                      className="border-b flex-1"
+                      inputMode="numeric"
+                      value={String(shift.dose)}
+                      onChangeText={(value) => {
+                        seterrorMsg("");
+                        setshift({ ...shift, dose: Number(value) });
+                      }}
+                      placeholder="Enter dose"
+                    />
+                  </View>
+                  <View className="flex-row items-center my-2">
+                    <Text variant="titleSmall" className="flex-1">
+                      Select Time
+                    </Text>
+                    <Button
+                      style={{ flex: 1 }}
+                      mode="outlined"
+                      onPress={showTimepicker}
+                    >
+                      {shift.time}
+                    </Button>
+                  </View>
+                  <Button
+                    mode="contained"
+                    style={{ width: "100%" }}
+                    onPress={() => {
+                      if (formData.frequency.type === "daily") {
+                        handleAddDaily();
+                      } else if (formData.frequency.type === "interval") {
+                        handleAddInterval();
+                      } else if (formData.frequency.type === "specific") {
+                        handleAddSpecific();
+                      }
+                    }}
+                  >
+                    Add
+                  </Button>
+                </Card.Content>
+              </Card>
+
               {/* <hr /> */}
-              <View>
+              <View className="mt-4">
                 {formData.frequency.shifts.length > 0 &&
                   formData.frequency.shifts.map((sh, i) => (
-                    <Card
-                      key={i}
-                      className="flex-row p-2 justify-between items-center mt-4"
-                    >
-                      <View>
-                        <Text className="me-6">
-                          {i + 1}
-                          {")."} Dose: {sh.dose} {formData.unit}
-                        </Text>
-                        <Text>Time: {sh.time}</Text>
-                      </View>
-                      <Button
-                        mode="outlined"
-                        onPress={() => {
-                          removeShift(i);
-                        }}
-                      >
-                        Remove
-                      </Button>
+                    <Card mode="outlined" key={i} className="mb-2">
+                      <Card.Content>
+                        <View
+                          className="flex-row justify-between"
+                          style={{ width: "100%" }}
+                        >
+                          <View>
+                            <Text className="" variant="labelMedium">
+                              {i + 1}
+                              {")."} Dose: {sh.dose} {formData.unit}
+                            </Text>
+                            <Text variant="labelMedium" className="mt-1">
+                              Time: {sh.time}
+                            </Text>
+                          </View>
+                          <Button
+                            mode="outlined"
+                            onPress={() => {
+                              removeShift(i);
+                            }}
+                          >
+                            Remove
+                          </Button>
+                        </View>
+                      </Card.Content>
                     </Card>
                   ))}
               </View>

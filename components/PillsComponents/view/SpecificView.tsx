@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from "react";
-import { Card } from "react-native-paper";
+import { Button, Card } from "react-native-paper";
 // import { Badge } from "@/components/ui/badge";
 import type { PillsType, SpecificFreq } from "@/types";
 import { usePillStore } from "@/zustand/pills.store";
@@ -72,56 +72,64 @@ const SpecificView = ({ targetPill }: ViewProps) => {
       <Card mode="outlined">
         <Card.Content>
           {datesArr.map((date, index) => (
-            <View key={index} className="p-2">
-              <View
-                className={`px-2 pb-2 border-b border-on-surface bg-transparent`}
-              >
-                <Text>{formattedReadableDate(new Date(date))}</Text>
-
-                {frequency.shifts.map((m, ind) => (
-                  <Text
-                    onPress={() => {
-                      const fDate = formatDate(new Date(date));
-                      // if not exist, push:
-                      if (checkIfMarked(fDate, m.time)) {
-                        // already exists, remove:
-                        updatePill(targetPill.id, {
-                          ...targetPill,
-                          logs: targetPill.logs.filter(
-                            (f) =>
-                              !(
-                                f.scheduledDate === fDate &&
-                                f.scheduledShiftTime === m.time
-                              )
-                          ),
-                        });
-                      } else {
-                        // is new add:
-                        updatePill(targetPill.id, {
-                          ...targetPill,
-                          logs: [
-                            ...targetPill.logs,
-                            {
-                              scheduledDate: fDate,
-                              scheduledShiftTime: m.time,
-                              dose: m.dose,
-                            },
-                          ],
-                        });
-                      }
-                    }}
-                    key={ind}
-                    className={`border rounded-xl border-on-background mt-1 p-4 ${
-                      checkIfMarked(formatDate(new Date(date)), m.time)
-                        ? "bg-primary text-on-primary"
-                        : ""
-                    }`}
-                  >
-                    {m.time} - {m.dose}({targetPill.unit})
+            <Card mode="elevated" key={index} className="mb-2">
+              <Card.Content className="p-2">
+                <View>
+                  <Text variant="titleMedium" className="mb-2">
+                    {formattedReadableDate(new Date(date))}
                   </Text>
-                ))}
-              </View>
-            </View>
+
+                  {frequency.shifts.map((m, ind) => (
+                    <Button
+                      key={ind}
+                      mode={
+                        checkIfMarked(formatDate(new Date(date)), m.time)
+                          ? "contained"
+                          : "outlined"
+                      }
+                      onPress={() => {
+                        const fDate = formatDate(new Date(date));
+                        // if not exist, push:
+                        if (checkIfMarked(fDate, m.time)) {
+                          // already exists, remove:
+                          updatePill(targetPill.id, {
+                            ...targetPill,
+                            logs: targetPill.logs.filter(
+                              (f) =>
+                                !(
+                                  f.scheduledDate === fDate &&
+                                  f.scheduledShiftTime === m.time
+                                )
+                            ),
+                          });
+                        } else {
+                          // is new add:
+                          updatePill(targetPill.id, {
+                            ...targetPill,
+                            logs: [
+                              ...targetPill.logs,
+                              {
+                                scheduledDate: fDate,
+                                scheduledShiftTime: m.time,
+                                dose: m.dose,
+                              },
+                            ],
+                          });
+                        }
+                      }}
+
+                      //   className={`border rounded-xl border-on-background mt-1 p-4 ${
+                      //     checkIfMarked(formatDate(new Date(date)), m.time)
+                      //       ? "bg-primary text-on-primary"
+                      //       : ""
+                      //   }`}
+                    >
+                      {m.time} - {m.dose}({targetPill.unit})
+                    </Button>
+                  ))}
+                </View>
+              </Card.Content>
+            </Card>
           ))}
         </Card.Content>
       </Card>

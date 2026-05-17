@@ -1,8 +1,5 @@
 import { useState } from "react";
-import {
-    Button,
-    Card,
-} from "react-native-paper";
+import { Button, Card } from "react-native-paper";
 // import {
 //   Select,
 //   SelectContent,
@@ -24,30 +21,32 @@ const NameUnitStep = ({
   setformData,
 }: stepsPropsType) => {
   const [errorMsg, seterrorMsg] = useState("");
-  const {theme} = useThemeStore()
+  const { theme } = useThemeStore();
 
   const handleNext = () => {
     if (!formData.name.trim()) {
       seterrorMsg("Please enter the medication name");
       return;
     }
-    if (!formData.unit) {
-      seterrorMsg("Please select a unit");
-      return;
-    }
+    // if (!formData.unit) {
+    //   seterrorMsg("Please select a unit");
+    //   return;
+    // }
     setCurrentStep((prev) => prev + 1);
   };
 
   return (
     <View className="flex-1">
-      <Card >
+      <Card mode="outlined">
+        <Card.Title title="What medication do you want to track?"></Card.Title>
         <Card.Content>
-          <Card.Title title="What medication do you want to track?"></Card.Title>
-          <View className="mt-2 text-left">
+          <View>
             <View>
-              <Text>Name</Text>
+              <Text variant="titleMedium" className="mb-2">
+                Name
+              </Text>
               <M3Input
-              className="border-b"
+                className="border-b"
                 value={formData.name}
                 onChangeText={(value) => {
                   seterrorMsg("");
@@ -56,14 +55,15 @@ const NameUnitStep = ({
                 placeholder="e.g. Vitamin C"
               />
             </View>
+            <Text variant="titleSmall" style={{ color: "red", marginTop: 4 }}>
+              {errorMsg}
+            </Text>
             <View className="mt-4">
               <Text>Unit</Text>
               <View>
                 <Picker
-                dropdownIconColor={
-                    theme === "dark" ? "#ffffff" : "#000000"
-                  }
-                style={{color:theme === "dark" ? "#ffffff":"#000000"}}
+                  dropdownIconColor={theme === "dark" ? "#ffffff" : "#000000"}
+                  style={{ color: theme === "dark" ? "#ffffff" : "#000000" }}
                   selectedValue={formData.unit}
                   onValueChange={(itemValue, _itemIndex) => {
                     seterrorMsg("");
@@ -76,7 +76,6 @@ const NameUnitStep = ({
                 </Picker>
               </View>
             </View>
-            <Text className="text-red-700 text-sm mt-2">{errorMsg}</Text>
           </View>
         </Card.Content>
         <Card.Actions style={{ justifyContent: "space-between" }}>
@@ -84,7 +83,9 @@ const NameUnitStep = ({
             Previous
           </Button>
 
-          <Button mode="contained" onPress={handleNext}>Next Step</Button>
+          <Button mode="contained" onPress={handleNext}>
+            Next Step
+          </Button>
         </Card.Actions>
       </Card>
     </View>

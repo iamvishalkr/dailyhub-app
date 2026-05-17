@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { Card } from "react-native-paper";
+import { Button, Card } from "react-native-paper";
 // import { Badge } from "@/components/ui/badge";
 import type { PillsType, Shift } from "@/types";
 import { usePillStore } from "@/zustand/pills.store";
@@ -86,39 +86,42 @@ const DailyView = ({ targetPill }: ViewProps) => {
       <Card mode="outlined">
         <Card.Content>
           {datesArr.map((date, index) => (
-            <View key={index} className="p-2 ">
-              <View
-                className={`px-2 pb-2 border-b border-on-surface bg-transparent`}
-              >
-                <Text className="text-lg">
-                  {formattedReadableDate(new Date(date))}
-                </Text>
-
-                {targetPill.frequency.shifts.map((shift, ind) => (
-                  <Text
-                    key={ind}
-                    role="button"
-                    tabIndex={0}
-                    onPress={() => {
-                      handleMark(date, shift);
-                    }}
-                    // onKeyDown={(key) => {
-                    //   if (key.code.toLowerCase() === "enter") {
-                    //     handleMark(date, shift);
-                    //   }
-                    // }}
-                    // variant={"secondary"}
-                    className={`border rounded-xl border-on-background mt-1 p-4 ${
-                      checkIfMarked(formatDate(new Date(date)), shift.time)
-                        ? "bg-primary text-on-primary"
-                        : ""
-                    }`}
-                  >
-                    {shift.time} - {shift.dose}({targetPill.unit})
+            <Card mode="elevated" key={index} className="mb-2">
+              <Card.Content>
+                <View>
+                  <Text variant="titleMedium" className="mb-2">
+                    {formattedReadableDate(new Date(date))}
                   </Text>
-                ))}
-              </View>
-            </View>
+
+                  {targetPill.frequency.shifts.map((shift, ind) => (
+                    <Button
+                      key={ind}
+                      onPress={() => {
+                        handleMark(date, shift);
+                      }}
+                      mode={
+                        checkIfMarked(formatDate(new Date(date)), shift.time)
+                          ? "contained"
+                          : "outlined"
+                      }
+                      // onKeyDown={(key) => {
+                      //   if (key.code.toLowerCase() === "enter") {
+                      //     handleMark(date, shift);
+                      //   }
+                      // }}
+                      // variant={"secondary"}
+                      // className={`border rounded-xl border-on-background mt-1 p-4 ${
+                      //   checkIfMarked(formatDate(new Date(date)), shift.time)
+                      //     ? "bg-primary text-on-primary"
+                      //     : ""
+                      // }`}
+                    >
+                      {shift.time} - {shift.dose}({targetPill.unit})
+                    </Button>
+                  ))}
+                </View>
+              </Card.Content>
+            </Card>
           ))}
         </Card.Content>
       </Card>

@@ -50,8 +50,8 @@ const PillsScreen = () => {
               title="No medications tracked yet."
               subtitle="Add your first pill or medication to start tracking."
               btnText="Track Meds"
-              onPress={()=>{
-                router.push("/pills/add")
+              onPress={() => {
+                router.push("/pills/add");
               }}
             />
           </View>
@@ -63,21 +63,31 @@ const PillsScreen = () => {
                 <View className="p-2">
                   <Card mode="outlined">
                     <Card.Content>
-                      <View className="flex flex-col items-start gap-2">
-                        <View className="w-full flex-row justify-between items-center group/title">
-                          <Text
-                            style={{ fontSize: 20, fontFamily: "SpaceMono" }}
-                          >
-                            {pill.name}
-                          </Text>
-                          <View className="flex-row items-center gap-2">
+                      <View className="">
+                        <View className="flex-row items-center w-full">
+                          <View className="flex-1">
                             <Text
+                              style={{ fontSize: 20, fontFamily: "SpaceMono" }}
+                            >
+                              {pill.name}
+                            </Text>
+                          </View>
+                          <View className="flex-row shrink-0 items-center gap-2">
+                            <Text
+                              style={{
+                                borderWidth: 1,
+                                borderColor: theme.colors.onBackground,
+                                fontFamily: "SpaceMono",
+                                paddingHorizontal: 8,
+                                borderRadius: 20,
+                              }}
                               className="capitalize"
-                              style={{ fontFamily: "SpaceMono" }}
+                              //   style={{ fontFamily: "SpaceMono" }}
                             >
                               {pill.frequency.type}
                             </Text>
                             <IconButton
+                              mode="contained-tonal"
                               onPress={() => {
                                 deletePill(pill.id);
                                 //   if (confirm("Are you sure to delete?")) {
@@ -121,13 +131,14 @@ const PillsScreen = () => {
                           </View>
                         </View>
                       </View>
-
-                      
                     </Card.Content>
-                    <Card.Actions className="w-full">
-                    <View className="w-full">
-                        <View className="flex-row justify-between items-center text-sm mt-2 ">
-                          <View className="bg-transparent">
+                    <Card.Actions className="w-full px-2">
+                      <View
+                        className="w-full border-t-1"
+                        style={{ borderColor: theme.colors.onBackground }}
+                      >
+                        <View className="flex-row justify-between items-center mt-2 px-2">
+                          <View>
                             <Button
                               onPress={() => {
                                 router.push(`/pills/view/${pill.id}`);
@@ -142,7 +153,7 @@ const PillsScreen = () => {
                           </Link> */}
                           </View>
 
-                          <Text className="shrink-0 font-medium text-foreground">
+                          <Text variant="titleSmall" className="shrink-0">
                             {Math.max(pill.inventory - calcTakeDoses(pill), 0)}/
                             {pill.inventory} left
                           </Text>

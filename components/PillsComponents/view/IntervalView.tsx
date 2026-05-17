@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { Card } from "react-native-paper";
+import { Button, Card } from "react-native-paper";
 // import { Badge } from "@/components/ui/badge";
 import type { IntervalFreq, PillsType } from "@/types";
 import { usePillStore } from "@/zustand/pills.store";
@@ -60,17 +60,25 @@ const IntervalView = ({ targetPill }: ViewProps) => {
 
   return (
     <ScrollView className="flex-1">
-      <Card className="outlined">
+      <Card mode="outlined" className="outlined">
         <Card.Content>
           {datesArr.map((date, index) => (
-            <View key={index} className="p-2 ">
+            <Card mode="elevated" key={index} className="mb-2">
+
+            
+            <Card.Content>
               <View
-                className={`px-2 pb-2 border-b border-on-surface bg-transparent`}
               >
-                <Text>{formattedReadableDate(new Date(date))}</Text>
+                <Text variant="titleMedium" className="mb-2">{formattedReadableDate(new Date(date))}</Text>
 
                 {frequency.shifts.map((m, ind) => (
-                  <Text
+                  <Button
+                  key={ind}
+                  mode={
+                    checkIfMarked(formatDate(new Date(date)), m.time)
+                      ? "contained"
+                      : "outlined"
+                  }
                     onPress={() => {
                       const fDate = formatDate(new Date(date));
                       // if not exist, push:
@@ -101,18 +109,19 @@ const IntervalView = ({ targetPill }: ViewProps) => {
                         });
                       }
                     }}
-                    key={ind}
-                    className={`border rounded-xl border-on-background mt-1 p-4 ${
-                      checkIfMarked(formatDate(new Date(date)), m.time)
-                        ? "bg-primary text-on-primary"
-                        : ""
-                    }`}
+                    
+                    // className={`border rounded-xl border-on-background mt-1 p-4 ${
+                    //   checkIfMarked(formatDate(new Date(date)), m.time)
+                    //     ? "bg-primary text-on-primary"
+                    //     : ""
+                    // }`}
                   >
                     {m.time} - {m.dose}({targetPill.unit})
-                  </Text>
+                  </Button>
                 ))}
               </View>
-            </View>
+            </Card.Content>
+            </Card>
           ))}
         </Card.Content>
       </Card>
