@@ -1,26 +1,20 @@
 import Appbar from "@/components/Appbar";
-import { Button } from "@/components/ui/Button";
-import { Card, CardHeader } from "@/components/ui/Card";
 import { M3Input } from "@/components/ui/M3Input";
-import { M3Text } from "@/components/ui/M3Text";
-import { M3View } from "@/components/ui/M3View";
 import { ThemedIcon } from "@/components/ui/ThemedIcon";
 import type { StreakType } from "@/types";
+import { showToast } from "@/utils/showToast";
 import { useStreakStore } from "@/zustand/streak.store";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useNavigation } from "expo-router";
 import React, { useEffect, useState } from "react";
-import {
-    StyleSheet,
-    ToastAndroid,
-    TouchableOpacity,
-    View
-} from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { Button, Card, Surface, Text } from "react-native-paper";
 
 const ManageScreen = () => {
   const { id }: { id: string } = useLocalSearchParams();
   const { streaksList, updateStreak, resetStreak, deleteStreak } =
     useStreakStore();
+  const navigation = useNavigation();
   const [errorMsg, seterrorMsg] = useState("");
   const [formData, setformData] = useState({
     id: 0,
@@ -45,20 +39,27 @@ const ManageScreen = () => {
     }
 
     updateStreak(Number(id), formData);
-    ToastAndroid.show("Streak Updated!", ToastAndroid.SHORT);
-    // window.history.back();
+    showToast("Streak Updated!");
+
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    }
   };
 
   const handleReset = () => {
     resetStreak(Number(id));
-    ToastAndroid.show("Streak Reset", ToastAndroid.SHORT);
-    // window.history.back();
+    showToast("Streak Reset");
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    }
   };
 
   const handleDelete = () => {
     deleteStreak(Number(id));
-    ToastAndroid.show("Streak Deleted", ToastAndroid.SHORT);
-    // window.history.back();
+    showToast("Streak Deleted");
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    }
   };
 
   const showMode = (currentMode: "date" | "time") => {
@@ -79,7 +80,7 @@ const ManageScreen = () => {
   };
   return (
     formData.id !== 0 && (
-      <M3View style={{ flex: 1 }}>
+      <Surface style={{ flex: 1 }}>
         <Appbar title="Manage Streaks" />
 
         <View className="px-2">
@@ -88,13 +89,21 @@ const ManageScreen = () => {
               style={{ flexDirection: "row", alignItems: "center", gap: 4 }}
             >
               <ThemedIcon name="pen" size={20} />
-              <M3Text className="text-xl">Edit</M3Text>
+              <Text variant="titleMedium" style={{ fontSize: 20 }}>
+                Edit
+              </Text>
             </View>
 
             <View className="flex-row gap-1">
-              <Button title="Reset" mode="outline" onPress={handleReset} />
-              <Button title="Delete" mode="outline" onPress={handleDelete} />
-              <Button title="Save" onPress={handleSave} />
+              <Button mode="outlined" onPress={handleReset}>
+                Reset
+              </Button>
+              <Button mode="outlined" onPress={handleDelete}>
+                Delete
+              </Button>
+              <Button mode="contained" onPress={handleSave}>
+                Save
+              </Button>
             </View>
           </View>
 
@@ -130,10 +139,12 @@ const ManageScreen = () => {
           </div>
         </div> */}
 
-          <Card>
-            <CardHeader>
+          <Card mode="outlined">
+            <Card.Content>
               <View>
-                <M3Text>Title</M3Text>
+                <Text variant="titleMedium" className="mb-2">
+                  Title
+                </Text>
                 <M3Input
                   className="border-b"
                   id="small-form-name"
@@ -144,10 +155,14 @@ const ManageScreen = () => {
                   }}
                   placeholder="Streak Title"
                 />
-                <M3Text className="text-red-700 text-sm">{errorMsg}</M3Text>
+                <Text variant="titleSmall" className="text-red-700 mb-2">
+                  {errorMsg}
+                </Text>
               </View>
               <View>
-                <M3Text>Duration (days)</M3Text>
+                <Text variant="titleMedium" className="mb-2">
+                  Duration (days)
+                </Text>
                 <M3Input
                   className="border-b"
                   id="small-form-name"
@@ -164,7 +179,9 @@ const ManageScreen = () => {
                 />
               </View>
               <View>
-                <M3Text>Why (Optional)</M3Text>
+                <Text variant="titleMedium" className="mb-2 mt-4">
+                  Why (Optional)
+                </Text>
                 <M3Input
                   className="border-b"
                   id="small-form-name"
@@ -177,13 +194,15 @@ const ManageScreen = () => {
                 />
               </View>
               <View>
-                <M3Text>Start Date</M3Text>
+                <Text variant="titleMedium" className="mb-2 mt-4">
+                  Start Date
+                </Text>
                 <TouchableOpacity
                   className="flex-row items-center gap-2 mt-3"
                   onPress={showDatepicker}
                 >
                   <ThemedIcon name="pen" size={14} />
-                  <M3Text>
+                  <Text variant="titleMedium">
                     {new Date(formData.startDateMs).toLocaleDateString(
                       "en-US",
                       {
@@ -192,13 +211,13 @@ const ManageScreen = () => {
                         year: "numeric",
                       }
                     )}
-                  </M3Text>
+                  </Text>
                 </TouchableOpacity>
               </View>
-            </CardHeader>
+            </Card.Content>
           </Card>
         </View>
-      </M3View>
+      </Surface>
     )
   );
 };

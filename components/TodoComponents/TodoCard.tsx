@@ -9,9 +9,8 @@ import {
     TouchableOpacity,
     View
 } from "react-native";
+import { Card, Text } from "react-native-paper";
 import { M3Input } from "../ui/M3Input";
-import { M3Text } from "../ui/M3Text";
-import { M3View } from "../ui/M3View";
 import { ThemedIcon } from "../ui/ThemedIcon";
 
 
@@ -54,9 +53,9 @@ const TodoCard = ({
   };
 
   return (
-    <Pressable >
-      <M3View
-      className="border-on-background"
+    <Card  mode="outlined" className="mb-2 overflow-hidden" >
+      <View
+      className=""
         style={styles.container}
       >
         <TouchableOpacity
@@ -83,16 +82,17 @@ const TodoCard = ({
             />
           ) : (
             <Pressable
+            style={{height:40, justifyContent:"center"}}
               onPress={() => {
                 onStartEdit();
               }}
             >
-              <M3Text style={styles.text}>{todo.title}</M3Text>
+              <Text style={styles.text}>{todo.title}</Text>
             </Pressable>
           )}
         </View>
-      </M3View>
-    </Pressable>
+      </View>
+    </Card>
   );
 };
 
@@ -101,11 +101,10 @@ export default TodoCard;
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 12,
+    paddingHorizontal:8,
+    // padding: 12,
     alignItems: "center",
-    marginVertical:8
+    paddingVertical:8
   },
 
   checkbox: {

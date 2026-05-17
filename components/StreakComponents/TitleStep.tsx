@@ -8,13 +8,11 @@
 // import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 // import { Input } from "@/components/ui/input";
 // import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/Button";
 import { useThemeStore } from "@/zustand/theme";
 import { useState } from "react";
 import { TouchableOpacity, View } from "react-native";
-import { Card, CardFooter, CardHeader, CardTitle } from "../ui/Card";
+import { Button, Card, Text } from "react-native-paper";
 import { M3Input } from "../ui/M3Input";
-import { M3Text } from "../ui/M3Text";
 import type { stepsPropsType } from "./propType";
 
 const TitleStep = ({
@@ -34,14 +32,14 @@ const TitleStep = ({
   const {theme} = useThemeStore()
 
   return (
-    <View className="px-2 ">
-      <Card>
-        <CardHeader>
-          <CardTitle>What do you want to track?</CardTitle>
+    <View >
+      <Card mode="outlined">
+          <Card.Title title="What do you want to track?"></Card.Title>
+        <Card.Content>
           <View className="min-h-46">
-            <View className="mt-2">
+            <View className="">
               <View>
-                <M3Text>Title</M3Text>
+                <Text className="mb-3">Title</Text>
                 <M3Input
                   className={`border-b`}
                   value={formData.title}
@@ -59,38 +57,38 @@ const TitleStep = ({
                   //   }}
                   placeholder="Streak Title"
                 />
-                <M3Text className="text-red-700 text-sm">{errorMsg}</M3Text>
+                <Text style={{color:"red", marginTop:8}} >{errorMsg}</Text>
               </View>
 
-              <M3Text className="text-gray-600 my-4">Examples:</M3Text>
+              <Text className="text-gray-600 mb-3">Examples:</Text>
               <View className="flex-row gap-2">
                 <TouchableOpacity
                   onPress={() => {
                     setformData({ ...formData, title: "No Fast Food" });
                   }}
                 >
-                  <M3Text className="py-1 px-3 border rounded-full cursor-pointer">
+                  <Text variant="labelSmall" style={{borderColor: theme === "dark" ? "#ffffff":"#000000"}} className="py-1 px-3 border rounded-full cursor-pointer">
                     No Fast Food
-                  </M3Text>
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
                     setformData({ ...formData, title: "Read 10 Pages" });
                   }}
                 >
-                  <M3Text className="py-1 px-3 border rounded-full cursor-pointer">
-                    Read 10 Pages
-                  </M3Text>
+                  <Text variant="labelSmall" style={{borderColor: theme === "dark" ? "#ffffff":"#000000"}} className="py-1 px-3 border rounded-full cursor-pointer">
+                  Read 10 Pages
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
           </View>
-        </CardHeader>
-        <CardFooter style={{justifyContent:"space-between"}}>
-          <Button disabled={true} mode={"outline"} title="Previous"></Button>
+        </Card.Content>
+        <Card.Actions style={{ justifyContent: "space-between" }}>
+          <Button disabled={true} mode={"outlined"} >Previous</Button>
 
-          <Button onPress={handleNext} title="Next Step"></Button>
-        </CardFooter>
+          <Button mode="contained" onPress={handleNext}>Next</Button>
+        </Card.Actions>
       </Card>
     </View>
   );

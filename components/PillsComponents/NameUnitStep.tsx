@@ -1,12 +1,8 @@
-import { Button } from "@/components/ui/Button";
-import {
-    Card,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/Card";
 import { useState } from "react";
+import {
+    Button,
+    Card,
+} from "react-native-paper";
 // import {
 //   Select,
 //   SelectContent,
@@ -18,8 +14,8 @@ import { pillsUnits } from "@/zustand/pills.store";
 import { useThemeStore } from "@/zustand/theme";
 import { Picker } from "@react-native-picker/picker";
 import { View } from "react-native";
+import { Text } from "react-native-paper";
 import { M3Input } from "../ui/M3Input";
-import { M3Text } from "../ui/M3Text";
 import type { stepsPropsType } from "./propType";
 
 const NameUnitStep = ({
@@ -45,12 +41,11 @@ const NameUnitStep = ({
   return (
     <View className="flex-1">
       <Card >
-        <CardHeader>
-          <CardTitle>What medication do you want to track?</CardTitle>
-          <CardDescription></CardDescription>
+        <Card.Content>
+          <Card.Title title="What medication do you want to track?"></Card.Title>
           <View className="mt-2 text-left">
             <View>
-              <M3Text>Name</M3Text>
+              <Text>Name</Text>
               <M3Input
               className="border-b"
                 value={formData.name}
@@ -62,7 +57,7 @@ const NameUnitStep = ({
               />
             </View>
             <View className="mt-4">
-              <M3Text>Unit</M3Text>
+              <Text>Unit</Text>
               <View>
                 <Picker
                 dropdownIconColor={
@@ -81,14 +76,16 @@ const NameUnitStep = ({
                 </Picker>
               </View>
             </View>
-            <M3Text className="text-red-700 text-sm mt-2">{errorMsg}</M3Text>
+            <Text className="text-red-700 text-sm mt-2">{errorMsg}</Text>
           </View>
-        </CardHeader>
-        <CardFooter style={{ justifyContent: "space-between" }}>
-          <Button disabled={true} mode={"outline"} title="Previous"></Button>
+        </Card.Content>
+        <Card.Actions style={{ justifyContent: "space-between" }}>
+          <Button disabled={true} mode={"outlined"}>
+            Previous
+          </Button>
 
-          <Button onPress={handleNext} title="Next Step"></Button>
-        </CardFooter>
+          <Button mode="contained" onPress={handleNext}>Next Step</Button>
+        </Card.Actions>
       </Card>
     </View>
   );

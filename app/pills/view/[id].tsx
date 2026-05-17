@@ -2,12 +2,11 @@ import Appbar from "@/components/Appbar";
 import DailyView from "@/components/PillsComponents/view/DailyView";
 import IntervalView from "@/components/PillsComponents/view/IntervalView";
 import SpecificView from "@/components/PillsComponents/view/SpecificView";
-import { M3Text } from "@/components/ui/M3Text";
-import { M3View } from "@/components/ui/M3View";
 import type { DoseLog, PillsType } from "@/types";
 import { usePillStore } from "@/zustand/pills.store";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
+import { Surface, Text } from "react-native-paper";
 
 import React from "react";
 import { StyleSheet, View } from "react-native";
@@ -30,12 +29,13 @@ const ViewPillsScreen = () => {
   }, [pillsList]);
 
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={["bottom"]}>
-      <M3View className="flex-1">
-        <Appbar title={targetPill.name} />
-        <View className="flex-1 px-2">
-          <M3Text className="text-sm my-3">{`(Mark pills already taken to track progress)`}</M3Text>
-          {/* <View className="">
+    <Surface style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 }} edges={["bottom"]}>
+        <View className="flex-1">
+          <Appbar title={targetPill.name} />
+          <View className="flex-1 px-2">
+            <Text className="text-sm my-3">{`(Mark pills already taken to track progress)`}</Text>
+            {/* <View className="">
           <View className="flex items-center gap-2">
             <Button
               mode="link"
@@ -51,22 +51,25 @@ const ViewPillsScreen = () => {
             </View>
           </View>
         </View> */}
-          {/* keep above for debug */}
+            {/* keep above for debug */}
 
-          {targetPill.frequency && targetPill.frequency.type === "daily" && (
-            <DailyView targetPill={targetPill} />
-          )}
+            {targetPill.frequency && targetPill.frequency.type === "daily" && (
+              <DailyView targetPill={targetPill} />
+            )}
 
-          {targetPill.frequency && targetPill.frequency.type === "interval" && (
-            <IntervalView targetPill={targetPill} />
-          )}
+            {targetPill.frequency &&
+              targetPill.frequency.type === "interval" && (
+                <IntervalView targetPill={targetPill} />
+              )}
 
-          {targetPill.frequency && targetPill.frequency.type === "specific" && (
-            <SpecificView targetPill={targetPill} />
-          )}
+            {targetPill.frequency &&
+              targetPill.frequency.type === "specific" && (
+                <SpecificView targetPill={targetPill} />
+              )}
+          </View>
         </View>
-      </M3View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </Surface>
   );
 };
 

@@ -1,14 +1,12 @@
-import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
 import { useJournalStore } from "@/zustand/journal.store";
 import { useState } from "react";
+import { Button, Card, Surface } from "react-native-paper";
 
 import Appbar from "@/components/Appbar";
 import { M3Input } from "@/components/ui/M3Input";
-import { M3Text } from "@/components/ui/M3Text";
-import { M3View } from "@/components/ui/M3View";
 import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
+import { Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const SettingsScreen = () => {
@@ -24,72 +22,85 @@ const SettingsScreen = () => {
   };
 
   return (
-    <M3View className="flex-1 ">
+    <Surface className="flex-1 ">
       <Appbar
         title="Settings"
         right={
-          <Button
-            style={{ borderColor: "white" }}
-            textStyle={{ color: "white" }}
-            mode="outline"
-            onPress={resetQuestions}
-            title="Reset Defaults"
-          >
+          <Button mode="outlined" onPress={resetQuestions}>
             {/* <RotateCcw className="w-3 h-3 mr-1" />  */}
+            Reset Defaults
           </Button>
         }
       />
-
-        <M3Text className="text-lg font-semibold text-muted-foreground uppercase tracking-wider px-3 pt-2">
+      <View className="px-3 my-3">
+        <Text variant="titleMedium" className="mb-4">
           Daily Questions ({questions.length})
-        </M3Text>
+        </Text>
 
-        <View className="px-3 my-3">
-          <View
-            //   onSubmit={handleAdd}
-            className="flex-row gap-4"
-          >
+        <View
+          //   onSubmit={handleAdd}
+          className="flex-col gap-4 w-full"
+        >
+          <View>
             <M3Input
-            numberOfLines={1}
+              numberOfLines={1}
+              multiline={false}
               placeholder="E.g. What could I have done better?"
               value={newQuestion}
               onChangeText={(value) => setNewQuestion(value)}
-              className="border rounded-xl flex-1"
+              style={{ height: 40, padding: 0 }}
+              contentStyle={{ wordWrap: "nowrap" }}
             />
+          </View>
+          <View >
             <Button
-              title="Add"
+              mode="contained"
               disabled={!newQuestion.trim()}
               onPress={handleAdd}
             >
               {/* <Plus className="w-5 h-5" /> */}
+              Add
             </Button>
           </View>
         </View>
+      </View>
 
-        <SafeAreaView style={{flex:1}} edges={["bottom"]}>
+      <SafeAreaView style={{ flex: 1 }} edges={["bottom"]}>
         <View className="flex-1 flex-col gap-2 px-3">
-        <ScrollView className="flex-1">
-          {questions.map((q, i) => (
-            <Card key={i} className="flex-row items-center justify-between p-3 mb-2">
-              <M3Text className="text-sm font-medium mr-4">{q}</M3Text>
-              <Button
-                mode="link"
-                onPress={() => deleteQuestion(i)}
-                title="Delete"
+          <ScrollView className="flex-1">
+            {questions.map((q, i) => (
+              <Card
+                mode="outlined"
+                key={i}
+                className="mb-2"
               >
-                {/* <Trash2 className="w-4 h-4" /> */}
-              </Button>
-            </Card>
-          ))}
-          {questions.length === 0 && (
-            <M3Text className="text-sm text-muted-foreground py-4 text-center border border-dashed border-gray-300 rounded-lg">
-              No questions configured. Add some below.
-            </M3Text>
-          )}
-        </ScrollView>
+                <Card.Content className="flex-row items-center justify-between w-full">
+                  <Text variant="titleSmall" style={{ width: "70%" }}>
+                    {q}
+                  </Text>
+                  <Button
+                    mode="contained-tonal"
+                    onPress={() => deleteQuestion(i)}
+                  >
+                    {/* <Trash2 className="w-4 h-4" /> */}
+                    Delete
+                  </Button>
+                </Card.Content>
+              </Card>
+            ))}
+            {questions.length === 0 && (
+              <Card mode="outlined">
+                <Card.Content>
+                  <Text variant="titleMedium" style={{ textAlign: "center" }}>
+                    No questions configured. Add some below.
+                  </Text>
+                </Card.Content>
+              </Card>
+            )}
+          </ScrollView>
         </View>
-        </SafeAreaView>
-    </M3View>
+      </SafeAreaView>
+    </Surface>
   );
 };
 

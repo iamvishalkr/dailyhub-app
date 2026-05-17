@@ -1,8 +1,8 @@
-import { Button } from "@/components/ui/Button";
 import { useJournalStore } from "@/zustand/journal.store";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
+import { Button, Surface } from "react-native-paper";
 // import {
 //   AlertDialog,
 //   AlertDialogAction,
@@ -17,14 +17,15 @@ import { useEffect, useState } from "react";
 // } from "@/components/ui/alert-dialog";
 import Appbar from "@/components/Appbar";
 import { M3Input } from "@/components/ui/M3Input";
-import { M3View } from "@/components/ui/M3View";
+import { showToast } from "@/utils/showToast";
 import React from "react";
-import { StyleSheet, Text, ToastAndroid, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const ViewJournalScreen = () => {
   const { id }: { id: string } = useLocalSearchParams();
   const { journals, updateJournal, deleteJournal } = useJournalStore();
+  const navigation = useNavigation();
 
   const journalId = Number(id);
   const journal = journals.find((j) => j.id === journalId);
@@ -42,9 +43,7 @@ const ViewJournalScreen = () => {
       <View className="flex-1 flex-col items-center justify-center">
         <Text>Journal not found.</Text>
         <View>
-        <Button onPress={() => {
-            
-        }} title="Go Back"></Button>
+          <Button onPress={() => {}}>Go Back</Button>
         </View>
       </View>
     );
@@ -52,13 +51,15 @@ const ViewJournalScreen = () => {
 
   const handleSave = () => {
     updateJournal(journalId, { content });
-    ToastAndroid.show("Journal updated!", ToastAndroid.SHORT);
-    // window.history.back();
+    showToast("Journal updated!");
   };
 
   const handleDelete = () => {
     deleteJournal(journalId);
-    ToastAndroid.show("Journal deleted!", ToastAndroid.SHORT);
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    }
+    showToast("Journal deleted!");
     // window.history.back();
   };
 
@@ -70,33 +71,40 @@ const ViewJournalScreen = () => {
   });
 
   return (
-    <M3View className="flex-1">
-      <Appbar title={dateStr} right={
-        <MaterialCommunityIcons name="delete" color={"#fff"} size={24} onPress={handleDelete} />
-      }/>
-          {/* <View className="h4 mb-0">{dateStr}</View> */}
-        {/* <DeleteBtnDialog handleOk={handleDelete} /> */}
-
-        <SafeAreaView className="flex-1" edges={["bottom"]}>
-
-        
-      <View className="h-80 p-4">
-      <M3Input
-      multiline={true}
-      numberOfLines={8}
-      textAlignVertical="top"
-        className="border rounded-xl h-80 flex-1 text-base resize-none p-4 whitespace-pre-wrap leading-relaxed shadow-sm w-full"
-        value={content}
-        onChangeText={(value) => setContent(value)}
+    <Surface className="flex-1">
+      <Appbar
+        title={dateStr}
+        right={
+          <MaterialCommunityIcons
+            name="delete"
+            color={"#fff"}
+            size={24}
+            onPress={handleDelete}
+          />
+        }
       />
+      {/* <View className="h4 mb-0">{dateStr}</View> */}
+      {/* <DeleteBtnDialog handleOk={handleDelete} /> */}
 
-      <View className="mt-4 flex justify-end">
-        <Button onPress={handleSave} title="Save Changes">
-          {/* <Save className="w-4 h-4 mr-2" />  */}
-        </Button>
-      </View>
-      </View></SafeAreaView>
-    </M3View>
+      <SafeAreaView className="flex-1" edges={["bottom"]}>
+        <View className="h-80_ p-4">
+          <M3Input
+            style={{ height: 400 }}
+            multiline={true}
+            numberOfLines={8}
+            textAlignVertical="top"
+            value={content}
+            onChangeText={(value) => setContent(value)}
+          />
+
+          <View className="mt-4 flex justify-end">
+            <Button mode="contained" onPress={handleSave}>
+              {/* <Save className="w-4 h-4 mr-2" />  */}Save Changes
+            </Button>
+          </View>
+        </View>
+      </SafeAreaView>
+    </Surface>
   );
 };
 

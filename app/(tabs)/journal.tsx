@@ -1,40 +1,34 @@
-import { M3View } from "@/components/ui/M3View";
 
 import EmptyState from "@/components/EmptyState";
-import { Card, CardHeader } from "@/components/ui/Card";
 import { useJournalStore } from "@/zustand/journal.store";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { Card } from "react-native-paper";
 
 import Appbar from "@/components/Appbar";
-import { M3Text } from "@/components/ui/M3Text";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import React from "react";
 import { FlatList, StyleSheet, View } from "react-native";
+import { IconButton, Surface, Text } from "react-native-paper";
 
 const JournalPage = () => {
   const { journals } = useJournalStore();
+  const router = useRouter()
   return (
-    <View style={{ flex: 1 }}>
+    <Surface style={{ flex: 1 }}>
       <Appbar
         title="Journal"
         right={
-          <View className="flex-row gap-4">
-            <Link href="/journal/settings">
-              <MaterialCommunityIcons name="cog" color={"#fff"} size={24} />
-              {/* <Button variant="ghost" size="icon">
-              <Settings className="w-5 h-5" />
-            </Button> */}
-            </Link>
-            <Link href="/journal/add">
-              <MaterialCommunityIcons name="plus" color={"#fff"} size={24} />
-              {/* <Button className="flex items-center gap-1">
-              <Plus className="w-4 h-4" /> Create
-            </Button> */}
-            </Link>
+          <View className="flex-row">
+            <IconButton mode="contained-tonal" icon={"cog"} size={24} onPress={()=>{
+                router.push("/journal/settings")
+            }}/>
+            <IconButton mode="contained-tonal" icon={"plus"} size={24} onPress={()=>{
+                router.push("/journal/add")
+            }}/>
+            
           </View>
         }
       />
-      <M3View style={{ flex: 1 }}>
+      <View style={{ flex: 1 }}>
         {journals.length > 0 && <FlatList
           data={journals}
           keyExtractor={(j) => String(j.id)}
@@ -50,15 +44,15 @@ const JournalPage = () => {
             return (
               <View className="py-2 px-3">
                 <Link href={`/journal/view/${journal.id}`}>
-                <Card className="w-full">
-                  <CardHeader>
-                  <M3Text className="font-medium text-sm text-muted-foreground">
+                <Card className="w-full" mode="outlined">
+                  <Card.Content>
+                  <Text className="font-medium text-sm text-muted-foreground">
                     {formattedDate}
-                  </M3Text>
-                  <M3Text className="line-clamp-3 text-sm leading-relaxed whitespace-pre-wrap text-foreground">
+                  </Text>
+                  <Text className="line-clamp-3 text-sm leading-relaxed whitespace-pre-wrap text-foreground">
                     {journal.content}
-                  </M3Text>
-                  </CardHeader>
+                  </Text>
+                  </Card.Content>
                 </Card>
               </Link>
               </View>
@@ -96,12 +90,14 @@ const JournalPage = () => {
             title="No journal entries yet."
             subtitle="Start writing your thoughts today!"
             btnText="Create Journal"
-            link="journal/add"
+            onPress={()=>{
+                router.push("/journal/add")
+            }}
           />
           </View>
         )}
-      </M3View>
-    </View>
+      </View>
+    </Surface>
   );
 };
 

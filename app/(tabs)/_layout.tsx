@@ -1,35 +1,22 @@
 import { Tabs } from "expo-router";
 import React from "react";
 
-import { useThemeStore } from "@/zustand/theme";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { useCSSVariable } from "uniwind";
+import { useTheme } from "react-native-paper";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function TabLayout() {
-  const { theme } = useThemeStore();
-  const primary =
-    theme === "light"
-      ? useCSSVariable("--color-primary")
-      : useCSSVariable("--color-dark-primary");
-  const surfaceContainer =
-    theme === "light"
-      ? useCSSVariable("--color-surface-container")
-      : useCSSVariable("--color-dark-surface-container");
+  const theme = useTheme();
+  const insets = useSafeAreaInsets();
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarStyle: { backgroundColor: String(surfaceContainer) },
-        tabBarActiveTintColor: String(primary), //Colors[colorScheme].tint,
-        // headerTitleStyle: {
-        //   fontFamily: "SpaceMono",
-        //   color: "#fff",
-        // },
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
-        // headerShown: useClientOnlyValue(false, true),
-        // tabBarStyle: { height: 110 },
-        // headerStyle: { backgroundColor: "teal" },
+        tabBarStyle: {
+          backgroundColor: theme.colors.surface,
+          height: 64 + insets.bottom,
+        }, //String(surfaceContainer)
+        tabBarActiveTintColor: theme.colors.primary, //String(primary) Colors[colorScheme].tint,
       }}
     >
       <Tabs.Screen
@@ -76,34 +63,6 @@ export default function TabLayout() {
           ),
         }}
       />
-      {/* <Tabs.Screen
-        name="index"
-        options={{
-          title: "DailyHub",
-          tabBarLabel: "Productivity",
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons color={color} size={28} name="fire" />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="utilities"
-        options={{
-          title: "Utilities",
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons color={color} size={28} name="briefcase" />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="settings"
-        options={{
-          title: "Settings",
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons color={color} size={28} name="cog" />
-          ),
-        }}
-      /> */}
     </Tabs>
   );
 }

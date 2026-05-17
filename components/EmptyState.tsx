@@ -1,69 +1,51 @@
 import { useRouter } from "expo-router";
 import type React from "react";
 import { View } from "react-native";
-import { Button } from "./ui/Button";
-import { M3Text } from "./ui/M3Text";
-import { M3View } from "./ui/M3View";
+import { Button, Card, Text } from "react-native-paper";
 import { ThemedIcon } from "./ui/ThemedIcon";
 
 const EmptyState = ({
   title,
   subtitle,
   btnText,
-  link,
   Logo,
-  onClick,
+  onPress,
 }: {
   title: string;
   subtitle: string;
   btnText: string;
-  link: string;
   Logo: string;
-  onClick?: () => void;
+  onPress?: () => void;
 }) => {
   const router = useRouter();
   return (
-    <M3View
-      className={`bg-muted/30 rounded-lg border border-dashed border-border border-primary`}
-      style={{
-        paddingVertical: 40,
-        paddingHorizontal: 16,
-        alignItems: "center",
-        rowGap: 8,
-      }}
-    >
-      <ThemedIcon
-        name={Logo as unknown as any}
-        size={28}
-        style={{ textAlign: "center" }}
-      />
-      <M3Text className={`text-lg text-center font-medium text-on-surface`}>
-        {title}
-      </M3Text>
-      <M3Text className={`text-sm text-center text-on-surface mt-1 mb-6`}>
-        {subtitle}
-      </M3Text>
-      <View>
-        <Button
-          mode="outline"
-          onPress={
-            onClick
-              ? onClick
-              : () => {
-                  router.push(`/${link}`);
-                }
-          }
-          leadingIcon={
-            <ThemedIcon
-              name="plus"
-              size={28}
-              style={{ textAlign: "center" }}
-            />
-          }
-          title={btnText}
+    <Card mode="outlined">
+      <Card.Content
+        style={{
+          paddingVertical: 40,
+          paddingHorizontal: 16,
+          alignItems: "center",
+          rowGap: 8,
+        }}
+      >
+        <ThemedIcon
+          name={Logo as unknown as any}
+          size={28}
+          style={{ textAlign: "center" }}
         />
-      </View>
-    </M3View>
+        <Text variant="titleMedium"  style={{textAlign:"center"}}>
+          {title}
+        </Text>
+        <Text variant="labelMedium" style={{textAlign:"center"}}>
+          {subtitle}
+        </Text>
+        <View className="mt-4">
+          <Button mode="outlined" onPress={onPress} icon={"plus"}>
+            {btnText}
+          </Button>
+        </View>
+      </Card.Content>
+    </Card>
   );
 };
 

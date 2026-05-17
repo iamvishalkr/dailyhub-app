@@ -1,7 +1,6 @@
-import { Button } from "@/components/ui/Button";
-import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/Card";
 import type { Frequency, Shift } from "@/types";
 import { useState } from "react";
+import { Button, Card } from "react-native-paper";
 // import DateSelector from "../DateSelector";
 // import {
 //     Select,
@@ -14,10 +13,9 @@ import { useThemeStore } from "@/zustand/theme";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
 import { ScrollView, View } from "react-native";
+import { Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { M3Input } from "../ui/M3Input";
-import { M3Text } from "../ui/M3Text";
-import { M3View } from "../ui/M3View";
 import type { stepsPropsType } from "./propType";
 
 const TimeDoseStep = ({
@@ -138,37 +136,36 @@ const TimeDoseStep = ({
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={['bottom']}>
+    <SafeAreaView style={{ flex: 1 }} edges={["bottom"]}>
       <ScrollView className="flex-1">
-        <Card className="">
-          <CardHeader>
-            <CardTitle>Time and Dose</CardTitle>
+        <Card>
+          <Card.Content>
+            <Card.Title title="Time and Dose"></Card.Title>
             <View className="">
-              <M3Text>Select Start Date</M3Text>
+              <Text>Select Start Date</Text>
               {/* <TouchableOpacity>
               <ThemedIcon name="pen" />
-              <M3Text>Select Start Date</M3Text>
+              <Text>Select Start Date</Text>
             </TouchableOpacity> */}
               <View>
                 <Button
                   style={{ width: "100%" }}
-                  mode="filled"
+                  mode="contained"
                   onPress={showDatepicker}
-                  title={
-                    formData.startDate !== 0
-                      ? new Date(formData.startDate).toDateString()
-                      : "Select Date"
-                  }
-                />
+                >
+                  {formData.startDate !== 0
+                    ? new Date(formData.startDate).toDateString()
+                    : "Select Date"}
+                </Button>
               </View>
 
               {/* ====== DAILY ====== */}
               {formData.frequency.type === "daily" && (
                 <View>
-                  <M3Text className="my-4">Add Daily Slots</M3Text>
-                  <M3View className="mb-3 border-on-surface border p-2 rounded-xl">
+                  <Text className="my-4">Add Daily Slots</Text>
+                  <View className="mb-3 border-on-surface border p-2 rounded-xl">
                     <View className="flex-row items-center">
-                      <M3Text className="flex-1">Dose</M3Text>
+                      <Text className="flex-1">Dose</Text>
                       <M3Input
                         className="border-b mb-2 flex-1"
                         inputMode="numeric"
@@ -181,32 +178,35 @@ const TimeDoseStep = ({
                       />
                     </View>
                     <View className="flex-row items-center">
-                      <M3Text className="flex-1">Time</M3Text>
+                      <Text className="flex-1">Time</Text>
                       <Button
                         style={{ flex: 1 }}
-                        mode="outline"
+                        mode="outlined"
                         onPress={showTimepicker}
-                        title={shift.time}
-                      />
+                      >
+                        {shift.time}
+                      </Button>
                     </View>
                     <View>
                       <Button
+                        mode="contained"
                         style={{ width: "100%", marginTop: 8 }}
                         onPress={handleAddDaily}
-                        title="Add"
-                      ></Button>
+                      >
+                        Add
+                      </Button>
                     </View>
-                  </M3View>
+                  </View>
                 </View>
               )}
 
               {/* ====== INTERVAL ====== */}
               {formData.frequency.type === "interval" && (
                 <View>
-                  <M3Text className="mt-4">Add Interval Slots</M3Text>
+                  <Text className="mt-4">Add Interval Slots</Text>
                   <View className="flex-row items-center gap-4">
-                    <M3Text className="flex-nowrap">I take Every</M3Text>
-                    {/* <M3Text className=""></M3Text> */}
+                    <Text className="flex-nowrap">I take Every</Text>
+                    {/* <Text className=""></Text> */}
                     <M3Input
                       className="border-b flex-1"
                       inputMode="numeric"
@@ -243,9 +243,9 @@ const TimeDoseStep = ({
                     </View>
                   </View>
 
-                  <M3View className="gap-3 border border-on-background rounded-xl p-2 bg-transparent">
+                  <View className="gap-3 border border-on-background rounded-xl p-2 bg-transparent">
                     <View className="flex-row items-center ">
-                      <M3Text className="flex-1">Dose</M3Text>
+                      <Text className="flex-1">Dose</Text>
                       <M3Input
                         className="border-b flex-1"
                         inputMode="numeric"
@@ -258,20 +258,23 @@ const TimeDoseStep = ({
                       />
                     </View>
                     <View className="flex-row items-center">
-                      <M3Text className="flex-1">Time</M3Text>
+                      <Text className="flex-1">Time</Text>
                       <Button
                         style={{ flex: 1 }}
-                        mode="outline"
+                        mode="outlined"
                         onPress={showTimepicker}
-                        title={shift.time}
-                      />
+                      >
+                        {shift.time}
+                      </Button>
                     </View>
                     <Button
+                      mode="contained"
                       style={{ width: "100%" }}
                       onPress={handleAddInterval}
-                      title="Add"
-                    ></Button>
-                  </M3View>
+                    >
+                      Add
+                    </Button>
+                  </View>
                   {/* <hr /> */}
                   {/* <View>
                     {formData.frequency.shifts.length > 0 &&
@@ -281,11 +284,11 @@ const TimeDoseStep = ({
                           className="flex flex-row p-2 justify-between items-center mt-4"
                         >
                           <View>
-                            <M3Text className="me-6">
+                            <Text className="me-6">
                               {i + 1}
                               {")."} Dose: {sh.dose} {formData.unit}
-                            </M3Text>
-                            <M3Text>Time: {sh.time}</M3Text>
+                            </Text>
+                            <Text>Time: {sh.time}</Text>
                           </View>
                           <Button
                             onPress={() => {
@@ -302,11 +305,11 @@ const TimeDoseStep = ({
               {/* ====== SPECIFIC ====== */}
               {formData.frequency.type === "specific" && (
                 <View>
-                  <M3Text className="my-4">Add Specific Slots</M3Text>
+                  <Text className="my-4">Add Specific Slots</Text>
                   <View className="mb-2">
-                    <M3Text className="flex items-center my-4">
+                    <Text className="flex items-center my-4">
                       I take on: (select day(s))
-                    </M3Text>
+                    </Text>
 
                     <View className="gap-1">
                       {[
@@ -317,54 +320,39 @@ const TimeDoseStep = ({
                         "Thrusday",
                         "Friday",
                         "Saturday",
-                      ].map((d, i) =>
-                        specificDaysArr.includes(i) ? (
-                          <M3View key={i}>
-                            <Button
-                              style={{ width: "100%" }}
-                              onPress={() => {
-                                const setD = new Set(specificDaysArr);
-                                if (setD.has(i)) {
-                                  // remove
-                                  setSpecificDaysArr(
-                                    specificDaysArr.filter((f) => f !== i)
-                                  );
-                                } else {
-                                  // add
-                                  setSpecificDaysArr([...specificDaysArr, i]);
-                                }
-                              }}
-                              title={d}
-                            />
-                          </M3View>
-                        ) : (
-                          <View key={i}>
-                            <Button
-                              style={{ width: "100%" }}
-                              mode="outline"
-                              onPress={() => {
-                                const setD = new Set(specificDaysArr);
-                                if (setD.has(i)) {
-                                  // remove
-                                  setSpecificDaysArr(
-                                    specificDaysArr.filter((f) => f !== i)
-                                  );
-                                } else {
-                                  // add
-                                  setSpecificDaysArr([...specificDaysArr, i]);
-                                }
-                              }}
-                              title={d}
-                            />
-                          </View>
-                        )
-                      )}
+                      ].map((d, i) => (
+                        <View>
+                          <Button
+                            key={i}
+                            mode={
+                              specificDaysArr.includes(i)
+                                ? "contained"
+                                : "outlined"
+                            }
+                            style={{ width: "100%" }}
+                            onPress={() => {
+                              const setD = new Set(specificDaysArr);
+                              if (setD.has(i)) {
+                                // remove
+                                setSpecificDaysArr(
+                                  specificDaysArr.filter((f) => f !== i)
+                                );
+                              } else {
+                                // add
+                                setSpecificDaysArr([...specificDaysArr, i]);
+                              }
+                            }}
+                          >
+                            {d}
+                          </Button>
+                        </View>
+                      ))}
                     </View>
                   </View>
 
-                  <M3View className="gap-3 border border-on-background rounded-xl p-2 bg-transparent">
+                  <View className="gap-3 border border-on-background rounded-xl p-2 bg-transparent">
                     <View className="flex-row items-center ">
-                      <M3Text className="flex-1">Dose</M3Text>
+                      <Text className="flex-1">Dose</Text>
                       <M3Input
                         className="border-b flex-1"
                         inputMode="numeric"
@@ -377,20 +365,23 @@ const TimeDoseStep = ({
                       />
                     </View>
                     <View className="flex-row items-center">
-                      <M3Text className="flex-1">Time</M3Text>
+                      <Text className="flex-1">Time</Text>
                       <Button
                         style={{ flex: 1 }}
-                        mode="outline"
+                        mode="outlined"
                         onPress={showTimepicker}
-                        title={shift.time}
-                      />
+                      >
+                        {shift.time}
+                      </Button>
                     </View>
                     <Button
+                      mode="contained"
                       style={{ width: "100%" }}
                       onPress={handleAddSpecific}
-                      title="Add"
-                    ></Button>
-                  </M3View>
+                    >
+                      Add
+                    </Button>
+                  </View>
                   {/* <hr /> */}
                   {/* <View>
                     {formData.frequency.shifts.length > 0 &&
@@ -400,11 +391,11 @@ const TimeDoseStep = ({
                           className="flex flex-row p-2 justify-between items-center mt-4"
                         >
                           <View>
-                            <M3Text className="me-6">
+                            <Text className="me-6">
                               {i + 1}
                               {")."} Dose: {sh.dose} {formData.unit}
-                            </M3Text>
-                            <M3Text>Time: {sh.time}</M3Text>
+                            </Text>
+                            <Text>Time: {sh.time}</Text>
                           </View>
                           <Button
                             onPress={() => {
@@ -427,38 +418,40 @@ const TimeDoseStep = ({
                       className="flex-row p-2 justify-between items-center mt-4"
                     >
                       <View>
-                        <M3Text className="me-6">
+                        <Text className="me-6">
                           {i + 1}
                           {")."} Dose: {sh.dose} {formData.unit}
-                        </M3Text>
-                        <M3Text>Time: {sh.time}</M3Text>
+                        </Text>
+                        <Text>Time: {sh.time}</Text>
                       </View>
                       <Button
+                        mode="outlined"
                         onPress={() => {
                           removeShift(i);
                         }}
-                        title="Remove"
-                      ></Button>
+                      >
+                        Remove
+                      </Button>
                     </Card>
                   ))}
               </View>
 
-              <M3Text className="text-red-700 text-sm mt-2">{errorMsg}</M3Text>
+              <Text className="text-red-700 text-sm mt-2">{errorMsg}</Text>
             </View>
-          </CardHeader>
-          <CardFooter style={{ justifyContent: "space-between" }}>
-            <Button
-              onPress={handlePrev}
-              mode={"outline"}
-              title="Previous"
-            ></Button>
+          </Card.Content>
+          <Card.Actions style={{ justifyContent: "space-between" }}>
+            <Button onPress={handlePrev} mode={"outlined"}>
+              Previous
+            </Button>
 
             <Button
+              mode="contained"
               disabled={formData.frequency.shifts.length <= 0}
               onPress={handleNext}
-              title="Next Step"
-            ></Button>
-          </CardFooter>
+            >
+              Next Step
+            </Button>
+          </Card.Actions>
         </Card>
       </ScrollView>
     </SafeAreaView>

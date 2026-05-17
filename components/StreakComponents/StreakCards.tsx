@@ -2,16 +2,14 @@
 import type { StreakType } from "@/types";
 import { useRouter } from "expo-router";
 import { View } from "react-native";
-import { Button } from "../ui/Button";
-import { Card, CardFooter, CardHeader, CardTitle } from "../ui/Card";
-import { M3Text } from "../ui/M3Text";
+import { Button, Card, Text } from "react-native-paper";
 import { ThemedIcon } from "../ui/ThemedIcon";
 
 const StreakCards = ({ data }: { data: StreakType }) => {
   const router = useRouter();
   return (
     <View className="p-4">
-      <Card className="w-full overflow-hidden bg-surface-container min-h-42 ps-2">
+      <Card mode="outlined" className="w-full min-h-42">
         {/* <CircularProgress
         value={Math.floor((data.completedDates.length / data.totalCount) * 100)}
         size={100}
@@ -22,19 +20,19 @@ const StreakCards = ({ data }: { data: StreakType }) => {
           <p>Days</p>
         </div>
       </CircularProgress> */}
-        <CardHeader>
-          <CardTitle>{data.title}</CardTitle>
+        <Card.Content>
+          <Text variant="titleMedium">{data.title}</Text>
 
           <View>
             <View className="my-2 flex-row gap-2 items-center">
               <ThemedIcon name="calendar" size={20} />
-              <M3Text>
+              <Text variant="titleSmall">
                 {new Date(data.startDateMs).toLocaleDateString("en-US", {
                   month: "long",
                   day: "numeric",
                   // year: "numeric",
                 })}
-              </M3Text>
+              </Text>
             </View>
             <View
               style={{ flexDirection: "row" }}
@@ -44,25 +42,24 @@ const StreakCards = ({ data }: { data: StreakType }) => {
                 name="calendar-clock"
                 size={20}
               />
-              <M3Text>{data.totalCount} Days</M3Text>
+              <Text variant="titleSmall">{data.totalCount} Days</Text>
             </View>
           </View>
-        </CardHeader>
-        <CardFooter style={{justifyContent:"space-between"}}>
+        </Card.Content>
+        <Card.Actions style={{justifyContent:"space-between", marginTop:8}}>
           <Button
-            title="View"
+          mode="contained"
             onPress={() => {
               router.push(`/streaks/view/${data.id}`);
             }}
-          ></Button>
+          >View</Button>
           <Button
-            mode="outline"
-            title="Manage"
+            mode="outlined"
             onPress={() => {
               router.push(`/streaks/manage/${data.id}`);
             }}
-          ></Button>
-        </CardFooter>
+          >Manage</Button>
+        </Card.Actions>
       </Card>
     </View>
   );

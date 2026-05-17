@@ -1,16 +1,8 @@
 // import DateSelector from "@/components/DateSelector";
-import { Button } from "@/components/ui/Button";
-import {
-    Card,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/Card";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
-import { M3Text } from "../ui/M3Text";
+import { Button, Card, Text } from "react-native-paper";
 import type { stepsPropsType } from "./propType";
 
 const ScheduleStep = ({
@@ -50,22 +42,23 @@ const ScheduleStep = ({
   }, [selectedDate]);
 
   return (
-    <View className="px-2">
-      <Card>
-        <CardHeader>
-          <CardTitle>Start Date</CardTitle>
-          <CardDescription></CardDescription>
+    <View>
+      <Card mode="outlined">
+        <Card.Title title="Start Date"></Card.Title>
+        <Card.Content>
           {/* content */}
           <View className="text-center">
-            <M3Text className="text-xl font-bold">
+            <Text className="text-xl font-bold">
               {selectedDate.toLocaleDateString("en-US", {
                 month: "long",
                 day: "numeric",
                 year: "numeric",
               })}
-            </M3Text>
+            </Text>
             <View className="text-gray-300 mt-2 cursor-pointer pt-2">
-              <Button onPress={showDatepicker} title="Select Date" />
+              <Button mode="outlined" onPress={showDatepicker}>
+                Select Date
+              </Button>
               {/* <Button onPress={showTimepicker} title="Show time picker!" /> */}
               {/* <Text>selected: {date.toLocaleString()}</Text> */}
               {/* <DateSelector
@@ -74,12 +67,16 @@ const ScheduleStep = ({
                 /> */}
             </View>
           </View>
-        </CardHeader>
-        <CardFooter style={{ justifyContent: "space-between" }}>
-          <Button onPress={handlePrev} mode={"outline"} title="Previous" />
+        </Card.Content>
+        <Card.Actions style={{ justifyContent: "space-between" }}>
+          <Button onPress={handlePrev} mode={"outlined"}>
+            Previous
+          </Button>
 
-          <Button onPress={handleNext} title="Next Step" />
-        </CardFooter>
+          <Button mode="contained" onPress={handleNext}>
+            Next
+          </Button>
+        </Card.Actions>
       </Card>
     </View>
   );

@@ -1,52 +1,56 @@
 // import { setAudioModeAsync } from 'expo-audio'; // or expo-audio
+import { paperConfig } from "@/constants/paperConfig";
 import "@/global.css";
+import { useThemeStore } from "@/zustand/theme";
 import { useFonts } from "expo-font";
 // import * as Notifications from "expo-notifications";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
+import {
+    MD3LightTheme as DefaultTheme,
+    MD3DarkTheme,
+    PaperProvider,
+    Surface,
+} from "react-native-paper";
 import "react-native-reanimated";
-// import { Uniwind } from "uniwind";
 
-// Register dark token overrides
-// Uniwind.updateCSSVariables("dark", {
-//   "--color-primary": M3Colors.dark.primary,
-//   "--color-surface-tint": M3Colors.dark.surfaceTint,
-//   "--color-on-primary": M3Colors.dark.onPrimary,
-//   "--color-primary-container": M3Colors.dark.primaryContainer,
-//   "--color-on-primary-container": M3Colors.dark.onPrimaryContainer,
-//   "--color-secondary": M3Colors.dark.secondary,
-//   "--color-on-secondary": M3Colors.dark.onSecondary,
-//   "--color-secondary-container:": M3Colors.dark.secondaryContainer,
-//   "--color-on-secondary-container:": M3Colors.dark.onSecondaryContainer,
-//   "--color-tertiary": M3Colors.dark.tertiary,
-//   "--color-on-tertiary:": M3Colors.dark.onTertiary,
-//   "--color-tertiary-container:": M3Colors.dark.tertiaryContainer,
-//   "--color-on-tertiary-container": M3Colors.dark.onTertiaryContainer,
-//   "--color-error": M3Colors.dark.error,
-//   "--color-on-error": M3Colors.dark.onError,
-//   "--color-error-container:": M3Colors.dark.errorContainer,
-//   "--color-on-error-container": M3Colors.dark.onErrorContainer,
-//   "--color-background": M3Colors.dark.background,
-//   "--color-on-background": M3Colors.dark.onBackground,
-//   "--color-surface:": M3Colors.dark.surface,
-//   "--color-on-surface": M3Colors.dark.onSurface,
-//   "--color-surface-variant": M3Colors.dark.surfaceVariant,
-//   "--color-on-surface-variant": M3Colors.dark.onSurfaceVariant,
-//   "--color-outline": M3Colors.dark.outline,
-//   "--color-outline-variant:": M3Colors.dark.outlineVariant,
-//   "--color-inverse-surface": M3Colors.dark.inverseSurface,
-//   "--color-inverse-on-surface": M3Colors.dark.inverseOnSurface,
-//   "--color-inverse-primary": M3Colors.dark.inversePrimary,
-//   "--color-surface-dim": M3Colors.dark.surfaceDim,
-//   "--color-surface-bright": M3Colors.dark.surfaceBright,
-//   "--color-surface-container-lowest": M3Colors.dark.surfaceContainerLowest,
-//   "--color-surface-container-low": M3Colors.dark.surfaceContainerLow,
-//   "--color-surface-container": M3Colors.dark.surfaceContainer,
-//   "--color-surface-container-high:": M3Colors.dark.surfaceContainerHigh,
-//   "--color-surface-container-highest:": M3Colors.dark.surfaceContainerHighest,
-//   // ...rest of dark tokens
-// });
+// import type { MD3TypescaleKey } from "react-native-paper/lib/typescript/types";
+// 1. Get the baseline MD3 light theme fonts
+// const baseFonts = DefaultTheme.fonts;
+// 2. Map 'YourCustomFont-Regular' onto every variant dynamically
+// const variantKeys = Object.keys(baseFonts) as MD3TypescaleKey[];
+
+// 2. Type the accumulator precisely using Partial<Record<...>>
+// const customVariants = variantKeys.reduce<
+//   Partial<Record<MD3TypescaleKey, any>>
+// >((acc, key) => {
+//   acc[key] = {
+//     ...baseFonts[key],
+//     fontFamily: "SpaceMono",
+//   };
+//   return acc;
+// }, {});
+
+// const theme = {
+//   ...DefaultTheme,
+//   colors: {
+//     ...DefaultTheme.colors,
+//     primary: "teal",
+//   },
+//   fonts: configureFonts({ config: customVariants, isV3: true }),
+// };
+
+const themeLight = {
+  ...DefaultTheme,
+  fonts: paperConfig.fontsConfig,
+  colors: paperConfig.colors.light,
+};
+const themeDark = {
+  ...MD3DarkTheme,
+  fonts: paperConfig.fontsConfig,
+  colors: paperConfig.colors.dark,
+};
 
 export {
     // Catch any errors thrown by the Layout component.
@@ -62,15 +66,15 @@ export const unstable_settings = {
 SplashScreen.preventAutoHideAsync();
 
 try {
-//   Notifications.setNotificationHandler({
-//     handleNotification: async () => ({
-//       shouldShowAlert: true, // Shows the popup at the top of the screen
-//       shouldPlaySound: true,
-//       shouldSetBadge: false,
-//       shouldShowBanner: true,
-//       shouldShowList: true,
-//     }),
-//   });
+  //   Notifications.setNotificationHandler({
+  //     handleNotification: async () => ({
+  //       shouldShowAlert: true, // Shows the popup at the top of the screen
+  //       shouldPlaySound: true,
+  //       shouldSetBadge: false,
+  //       shouldShowBanner: true,
+  //       shouldShowList: true,
+  //     }),
+  //   });
 } catch (error) {
   console.log("Notification setup bypassed in Expo Go:", error);
 }
@@ -95,45 +99,48 @@ export default function RootLayout() {
     return null;
   }
 
-//   useEffect(() => {
-//     try {
-//       requestPermissions();
-//     } catch (error) {
-//       console.log("Notification setup bypassed in Expo Go:", error);
-//     }
-//   }, []);
-//   const requestPermissions = async () => {
-//     // const { status: existingStatus } =
-//     //   await Notifications.getPermissionsAsync();
-//     // let finalStatus = existingStatus;
+  //   useEffect(() => {
+  //     try {
+  //       requestPermissions();
+  //     } catch (error) {
+  //       console.log("Notification setup bypassed in Expo Go:", error);
+  //     }
+  //   }, []);
+  //   const requestPermissions = async () => {
+  //     // const { status: existingStatus } =
+  //     //   await Notifications.getPermissionsAsync();
+  //     // let finalStatus = existingStatus;
 
-//     // if (existingStatus !== "granted") {
-//     //   const { status } = await Notifications.requestPermissionsAsync();
-//     //   finalStatus = status;
-//     // }
+  //     // if (existingStatus !== "granted") {
+  //     //   const { status } = await Notifications.requestPermissionsAsync();
+  //     //   finalStatus = status;
+  //     // }
 
-//     // if (finalStatus !== "granted") {
-//     //   Alert.alert(
-//     //     "Permissions Required",
-//     //     "Please enable notifications in your device settings to get your habit reminders!"
-//     //   );
-//     // }
-//   };
+  //     // if (finalStatus !== "granted") {
+  //     //   Alert.alert(
+  //     //     "Permissions Required",
+  //     //     "Please enable notifications in your device settings to get your habit reminders!"
+  //     //   );
+  //     // }
+  //   };
 
   return <RootLayoutNav />;
 }
 
 function RootLayoutNav() {
+  const { theme: themeStore } = useThemeStore();
   return (
-    <>
-      <Stack
-        screenOptions={{
-          statusBarStyle: "light",
-          headerShown: false,
-        }}
-      >
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      </Stack>
-    </>
+    <PaperProvider theme={themeStore === "dark" ? themeDark : themeLight}>
+      <Surface className="flex-1">
+        <Stack
+          screenOptions={{
+            statusBarStyle: "dark",
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        </Stack>
+      </Surface>
+    </PaperProvider>
   );
 }

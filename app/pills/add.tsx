@@ -20,10 +20,9 @@ import { useState } from "react";
 import { useUserStore } from "@/zustand/user.store";
 
 import Appbar from "@/components/Appbar";
-import { M3Text } from "@/components/ui/M3Text";
-import { M3View } from "@/components/ui/M3View";
 import React from "react";
 import { StyleSheet, View } from "react-native";
+import { Surface, Text } from "react-native-paper";
 
 const AddScreen = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -79,7 +78,7 @@ const AddScreen = () => {
   };
 
   return (
-    <M3View className="flex-1">
+    <Surface className="flex-1">
       <Appbar title="Add Pills" />
       {/* --- Top Horizontal Stepper --- */}
       <View className="px-4 flex-1">
@@ -94,11 +93,11 @@ const AddScreen = () => {
             }}
           ></View> */}
         <View className="mt-4 mb-2">
-          <M3Text className="text-xl">
+          <Text className="text-xl">
             {`Step : ${currentStep}/${stepTask.length} - ${
               stepTask[currentStep - 1]
             }`}
-          </M3Text>
+          </Text>
         </View>
 
         
@@ -136,7 +135,7 @@ const AddScreen = () => {
         />
       )}
       </View>
-    </M3View>
+    </Surface>
   );
 };
 

@@ -1,12 +1,10 @@
 import Appbar from "@/components/Appbar";
 import EmptyState from "@/components/EmptyState";
 import TodoCard from "@/components/TodoComponents/TodoCard";
-import { Button } from "@/components/ui/Button";
-import { M3View } from "@/components/ui/M3View";
-import { ThemedIcon } from "@/components/ui/ThemedIcon";
 import { useTodoStore } from "@/zustand/todo.store";
 import { useState } from "react";
 import { FlatList, KeyboardAvoidingView, Platform, View } from "react-native";
+import { Button, Surface } from "react-native-paper";
 // import { useUniwind } from "uniwind";
 
 export default function TodoPage() {
@@ -21,24 +19,16 @@ export default function TodoPage() {
   };
 
   return (
-    <M3View style={{ flex: 1 }}>
+    <Surface style={{ flex: 1 }}>
       <Appbar
         title="Todos"
         right={
           <Button
-            title="Add"
-            mode="outline"
-            style={{ borderColor: "#fff" }}
-            textStyle={{ color: "#fff" }}
-            leadingIcon={
-              <ThemedIcon
-              color={"#ffffff"}
-                name="plus"
-                size={20}
-              />
-            }
+          className="me-2"
+            mode="outlined"
+            icon={"plus"}
             onPress={handleCreateNew}
-          />
+          >Add</Button>
         }
       />
       {todos.length === 0 && (
@@ -48,12 +38,11 @@ export default function TodoPage() {
             title="No Todos!"
             subtitle="Create Your First Todo Now"
             btnText="Create Todos"
-            link="#"
-            onClick={handleCreateNew}
+            onPress={handleCreateNew}
           />
         </View>
       )}
-      <M3View className="flex-1">
+      <View className="flex-1 pt-2">
       <KeyboardAvoidingView
         className=""
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -75,7 +64,7 @@ export default function TodoPage() {
           )}
         />
       </KeyboardAvoidingView>
-      </M3View>
-    </M3View>
+      </View>
+    </Surface>
   );
 }

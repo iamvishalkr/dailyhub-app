@@ -1,17 +1,12 @@
+import { useState } from "react";
 import {
     Card,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/Card";
-import { useState } from "react";
+} from "react-native-paper";
 // import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
 // import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/Button";
 import { View } from "react-native";
+import { Button, Text } from "react-native-paper";
 import { M3Input } from "../ui/M3Input";
-import { M3Text } from "../ui/M3Text";
 import type { stepsPropsType } from "./propType";
 
 const InventoryStep = ({
@@ -38,15 +33,14 @@ const InventoryStep = ({
 
   return (
     <View className="">
-      <Card className="w-full overflow-hidden">
-        <CardHeader>
-          <CardTitle>Medication Inventory</CardTitle>
-          <CardDescription></CardDescription>
+      <Card>
+        <Card.Content>
+          <Card.Title title="Medication Inventory" ></Card.Title>
           <View className="">
             <View>
-              <M3Text>
+              <Text>
                 Current total amount (in {formData.unit || "units"})
-              </M3Text>
+              </Text>
               <M3Input
               className="border-b"
                 inputMode="numeric"
@@ -65,16 +59,16 @@ const InventoryStep = ({
                 placeholder="e.g. 30"
               />
             </View>
-            <M3Text className="text-red-700 text-sm mt-2">{errorMsg}</M3Text>
+            <Text className="text-red-700 text-sm mt-2">{errorMsg}</Text>
           </View>
-        </CardHeader>
-        <CardFooter style={{ justifyContent: "space-between" }}>
-          <Button onPress={handlePrev} mode={"outline"} title="Previous">
-            
+        </Card.Content>
+        <Card.Actions style={{ justifyContent: "space-between" }}>
+          <Button onPress={handlePrev} mode={"outlined"}>
+            Previous
           </Button>
 
-          <Button onPress={handleNext} title="Finish"></Button>
-        </CardFooter>
+          <Button mode="contained" onPress={handleNext}>Finish</Button>
+        </Card.Actions>
       </Card>
     </View>
   );

@@ -1,11 +1,10 @@
-import { Card } from "@/components/ui/Card";
 import { useCallback } from "react";
+import { Card } from "react-native-paper";
 // import { Badge } from "@/components/ui/badge";
-import { M3Text } from "@/components/ui/M3Text";
-import { M3View } from "@/components/ui/M3View";
 import type { PillsType, Shift } from "@/types";
 import { usePillStore } from "@/zustand/pills.store";
 import { ScrollView, View } from "react-native";
+import { Text } from "react-native-paper";
 // import { toast } from "sonner";
 
 const formatDate = (date: Date) => {
@@ -13,6 +12,7 @@ const formatDate = (date: Date) => {
     .toString()
     .padStart(2, "0")}-${date.getDate()}`;
 };
+
 const formattedReadableDate = (date: Date) => {
   return date.toLocaleDateString("en-GB", {
     day: "numeric",
@@ -83,41 +83,44 @@ const DailyView = ({ targetPill }: ViewProps) => {
 
   return (
     <ScrollView className="flex-1">
-      <Card className="">
-        {datesArr.map((date, index) => (
-          <View key={index} className="p-2 ">
-            <M3View
-            
-            className={`px-2 pb-2 border-b border-on-surface bg-transparent`}
-          >
-            <M3Text className="text-lg">{formattedReadableDate(new Date(date))}</M3Text>
-
-            {targetPill.frequency.shifts.map((shift, ind) => (
-              <M3Text
-                key={ind}
-                role="button"
-                tabIndex={0}
-                onPress={() => {
-                  handleMark(date, shift);
-                }}
-                // onKeyDown={(key) => {
-                //   if (key.code.toLowerCase() === "enter") {
-                //     handleMark(date, shift);
-                //   }
-                // }}
-                // variant={"secondary"}
-                className={`border rounded-xl border-on-background mt-1 p-4 ${
-                  checkIfMarked(formatDate(new Date(date)), shift.time)
-                    ? "bg-primary text-on-primary"
-                    : ""
-                }`}
+      <Card mode="outlined">
+        <Card.Content>
+          {datesArr.map((date, index) => (
+            <View key={index} className="p-2 ">
+              <View
+                className={`px-2 pb-2 border-b border-on-surface bg-transparent`}
               >
-                {shift.time} - {shift.dose}({targetPill.unit})
-              </M3Text>
-            ))}
-          </M3View>
-          </View>
-        ))}
+                <Text className="text-lg">
+                  {formattedReadableDate(new Date(date))}
+                </Text>
+
+                {targetPill.frequency.shifts.map((shift, ind) => (
+                  <Text
+                    key={ind}
+                    role="button"
+                    tabIndex={0}
+                    onPress={() => {
+                      handleMark(date, shift);
+                    }}
+                    // onKeyDown={(key) => {
+                    //   if (key.code.toLowerCase() === "enter") {
+                    //     handleMark(date, shift);
+                    //   }
+                    // }}
+                    // variant={"secondary"}
+                    className={`border rounded-xl border-on-background mt-1 p-4 ${
+                      checkIfMarked(formatDate(new Date(date)), shift.time)
+                        ? "bg-primary text-on-primary"
+                        : ""
+                    }`}
+                  >
+                    {shift.time} - {shift.dose}({targetPill.unit})
+                  </Text>
+                ))}
+              </View>
+            </View>
+          ))}
+        </Card.Content>
       </Card>
     </ScrollView>
   );

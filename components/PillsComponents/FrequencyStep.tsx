@@ -1,13 +1,11 @@
-import { Button } from "@/components/ui/Button";
+import { useThemeStore } from "@/zustand/theme";
+import { StyleSheet } from "react-native";
 import {
+    Button,
     Card,
-    CardDescription,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/Card";
+    Text,
+} from "react-native-paper";
 import type { stepsPropsType } from "./propType";
-
 // import {
 //   Field,
 //   FieldContent,
@@ -70,9 +68,8 @@ const FrequencyStep = ({
   return (
     <View className="flex-1">
       <Card>
-        <CardHeader>
-          <CardTitle>How often do you take this?</CardTitle>
-          <CardDescription></CardDescription>
+        <Card.Content>
+          <Card.Title title="How often do you take this?"></Card.Title>
           <View className="mt-4 text-left flex flex-col gap-3">
             <View style={styles.container}>
               {options.map((item) => {
@@ -110,10 +107,10 @@ const FrequencyStep = ({
 
                     {/* Right Section */}
                     <View style={styles.rightContainer}>
-                      <M3Text style={styles.titleText}>{item.title}</M3Text>
-                      <M3Text style={styles.descriptionText}>
+                      <Text style={styles.titleText}>{item.title}</Text>
+                      <Text style={styles.descriptionText}>
                         {item.description}
-                      </M3Text>
+                      </Text>
                     </View>
                   </Pressable>
                 );
@@ -167,16 +164,14 @@ const FrequencyStep = ({
               </FieldLabel>
             </RadioGroup> */}
           </View>
-        </CardHeader>
-        <CardFooter style={{justifyContent:"space-between"}}>
-          <Button
-            onPress={handlePrev}
-            mode={"outline"}
-            title="Previous"
-          ></Button>
+        </Card.Content>
+        <Card.Actions style={{ justifyContent: "space-between" }}>
+          <Button onPress={handlePrev} mode={"outlined"}>
+            Previous
+          </Button>
 
-          <Button onPress={handleNext} title="Next Step"></Button>
-        </CardFooter>
+          <Button mode="contained" onPress={handleNext}>Next Step</Button>
+        </Card.Actions>
       </Card>
     </View>
   );
@@ -184,9 +179,7 @@ const FrequencyStep = ({
 
 export default FrequencyStep;
 
-import { useThemeStore } from "@/zustand/theme";
-import { StyleSheet } from "react-native";
-import { M3Text } from "../ui/M3Text";
+
 
 const styles = StyleSheet.create({
   container: {

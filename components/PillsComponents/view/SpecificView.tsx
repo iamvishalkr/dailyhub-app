@@ -1,11 +1,10 @@
-import { Card } from "@/components/ui/Card";
 import { useCallback, useMemo } from "react";
+import { Card } from "react-native-paper";
 // import { Badge } from "@/components/ui/badge";
-import { M3Text } from "@/components/ui/M3Text";
-import { M3View } from "@/components/ui/M3View";
 import type { PillsType, SpecificFreq } from "@/types";
 import { usePillStore } from "@/zustand/pills.store";
 import { ScrollView, View } from "react-native";
+import { Text } from "react-native-paper";
 
 const formatDate = (date: Date) => {
   return `${date.getFullYear()}-${(date.getMonth() + 1)
@@ -70,60 +69,61 @@ const SpecificView = ({ targetPill }: ViewProps) => {
 
   return (
     <ScrollView className="flex-1">
-      <Card className="">
-        {datesArr.map((date, index) => (
-          <View key={index} className="p-2">
-            <M3View
-              
-              className={`px-2 pb-2 border-b border-on-surface bg-transparent`}
-            >
-              <M3Text>{formattedReadableDate(new Date(date))}</M3Text>
+      <Card mode="outlined">
+        <Card.Content>
+          {datesArr.map((date, index) => (
+            <View key={index} className="p-2">
+              <View
+                className={`px-2 pb-2 border-b border-on-surface bg-transparent`}
+              >
+                <Text>{formattedReadableDate(new Date(date))}</Text>
 
-              {frequency.shifts.map((m, ind) => (
-                <M3Text
-                  onPress={() => {
-                    const fDate = formatDate(new Date(date));
-                    // if not exist, push:
-                    if (checkIfMarked(fDate, m.time)) {
-                      // already exists, remove:
-                      updatePill(targetPill.id, {
-                        ...targetPill,
-                        logs: targetPill.logs.filter(
-                          (f) =>
-                            !(
-                              f.scheduledDate === fDate &&
-                              f.scheduledShiftTime === m.time
-                            )
-                        ),
-                      });
-                    } else {
-                      // is new add:
-                      updatePill(targetPill.id, {
-                        ...targetPill,
-                        logs: [
-                          ...targetPill.logs,
-                          {
-                            scheduledDate: fDate,
-                            scheduledShiftTime: m.time,
-                            dose: m.dose,
-                          },
-                        ],
-                      });
-                    }
-                  }}
-                  key={ind}
-                  className={`border rounded-xl border-on-background mt-1 p-4 ${
-                    checkIfMarked(formatDate(new Date(date)), m.time)
-                      ? "bg-primary text-on-primary"
-                      : ""
-                  }`}
-                >
-                  {m.time} - {m.dose}({targetPill.unit})
-                </M3Text>
-              ))}
-            </M3View>
-          </View>
-        ))}
+                {frequency.shifts.map((m, ind) => (
+                  <Text
+                    onPress={() => {
+                      const fDate = formatDate(new Date(date));
+                      // if not exist, push:
+                      if (checkIfMarked(fDate, m.time)) {
+                        // already exists, remove:
+                        updatePill(targetPill.id, {
+                          ...targetPill,
+                          logs: targetPill.logs.filter(
+                            (f) =>
+                              !(
+                                f.scheduledDate === fDate &&
+                                f.scheduledShiftTime === m.time
+                              )
+                          ),
+                        });
+                      } else {
+                        // is new add:
+                        updatePill(targetPill.id, {
+                          ...targetPill,
+                          logs: [
+                            ...targetPill.logs,
+                            {
+                              scheduledDate: fDate,
+                              scheduledShiftTime: m.time,
+                              dose: m.dose,
+                            },
+                          ],
+                        });
+                      }
+                    }}
+                    key={ind}
+                    className={`border rounded-xl border-on-background mt-1 p-4 ${
+                      checkIfMarked(formatDate(new Date(date)), m.time)
+                        ? "bg-primary text-on-primary"
+                        : ""
+                    }`}
+                  >
+                    {m.time} - {m.dose}({targetPill.unit})
+                  </Text>
+                ))}
+              </View>
+            </View>
+          ))}
+        </Card.Content>
       </Card>
     </ScrollView>
   );
