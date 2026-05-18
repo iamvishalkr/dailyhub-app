@@ -1,3 +1,4 @@
+// opt out bable config to fix error in prod
 module.exports = function (api) {
     api.cache(true);
     return {
