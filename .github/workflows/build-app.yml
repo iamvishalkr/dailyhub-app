@@ -1,10 +1,15 @@
 name: Production Android Build
 
 on:
-  push:
-    branches:
-      - main
-  workflow_dispatch: # Allows you to also trigger it manually from GitHub UI
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'App Version (e.g., 1.0.0)'
+        required: true
+        default: '1.0.0' # Allows you to also trigger it manually from GitHub UI
+
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -13,6 +18,19 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Check Tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG_NAME="v${{ github.event.inputs.version }}"
+          
+          # Check if the tag exists on GitHub remote
+          if git ls-remote --tags origin | grep -q "refs/tags/$TAG_NAME"; then
+            echo "::error::The version $TAG_NAME already exists! Please use a unique version number."
+            exit 1
+          fi
+      
 
       - name: Install pnpm
         uses: pnpm/action-setup@v4
@@ -70,8 +88,20 @@ jobs:
           cd android
           ./gradlew assembleRelease --no-daemon
 
-      - name: Upload Production APK
-        uses: actions/upload-artifact@v4
+      # - name: Upload Production APK
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: production-apk
+      #     path: android/app/build/outputs/apk/release/app-release.apk
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v3
+        # if: startsWith(github.ref, 'refs/tags/')
         with:
-          name: production-apk
-          path: android/app/build/outputs/apk/release/app-release.apk
+          files: android/app/build/outputs/apk/release/app-release.apk
+          name: Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
