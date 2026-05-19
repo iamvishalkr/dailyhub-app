@@ -39,7 +39,7 @@ const TitleStep = ({
           <View className="min-h-46">
             <View className="">
               <View>
-                <Text className="mb-3">Title</Text>
+                <Text variant="titleMedium" className="mb-3">Title</Text>
                 <M3Input
                   className={`border-b`}
                   value={formData.title}
@@ -60,7 +60,7 @@ const TitleStep = ({
                 <Text style={{color:"red", marginTop:8}} >{errorMsg}</Text>
               </View>
 
-              <Text className="text-gray-600 mb-3">Examples:</Text>
+              <Text variant="titleSmall" className="text-gray-600 mb-3">Examples:</Text>
               <View className="flex-row gap-2">
                 <TouchableOpacity
                   onPress={() => {

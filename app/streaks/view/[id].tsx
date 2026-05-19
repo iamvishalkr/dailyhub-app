@@ -92,8 +92,8 @@ const ViewPage = () => {
                           size={28}
                           style={{ textAlign: "center", marginTop: 10 }}
                         />
-                        <Text>{item.trophy}</Text>
-                        <Text>{item.days} Days</Text>
+                        <Text variant="titleMedium">{item.trophy}</Text>
+                        <Text variant="titleMedium">{item.days} Days</Text>
                       </View>
                     </View>
                   ))}

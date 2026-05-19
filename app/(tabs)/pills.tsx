@@ -67,7 +67,7 @@ const PillsScreen = () => {
                         <View className="flex-row items-center w-full">
                           <View className="flex-1">
                             <Text
-                              style={{ fontSize: 20, fontFamily: "SpaceMono" }}
+                              variant="titleMedium"
                             >
                               {pill.name}
                             </Text>
@@ -97,7 +97,7 @@ const PillsScreen = () => {
                             ></IconButton>
                           </View>
                         </View>
-                        <Text style={{ fontFamily: "SpaceMono" }}>
+                        <Text variant="titleSmall">
                           Taken as ({pill.unit})
                         </Text>
                         <View className="flex-row justify-between w-full items-center">

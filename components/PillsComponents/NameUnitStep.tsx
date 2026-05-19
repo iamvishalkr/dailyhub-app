@@ -59,7 +59,7 @@ const NameUnitStep = ({
               {errorMsg}
             </Text>
             <View className="mt-4">
-              <Text>Unit</Text>
+              <Text variant="titleMedium">Unit</Text>
               <View>
                 <Picker
                   dropdownIconColor={theme === "dark" ? "#ffffff" : "#000000"}

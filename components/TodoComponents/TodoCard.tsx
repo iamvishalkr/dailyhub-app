@@ -87,7 +87,7 @@ const TodoCard = ({
                 onStartEdit();
               }}
             >
-              <Text style={styles.text}>{todo.title}</Text>
+              <Text variant="titleMedium" style={styles.text}>{todo.title}</Text>
             </Pressable>
           )}
         </View>

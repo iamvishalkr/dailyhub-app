@@ -35,34 +35,3 @@ const Appbar = ({
 export default Appbar;
 
 const styles = StyleSheet.create({});
-// return (
-//     <SafeAreaView edges={["top"]} style={{ backgroundColor: "teal" }}>
-//       <View
-//         style={{
-//           height: 30 + Constants.statusBarHeight,
-//           paddingHorizontal: 16,
-//           alignItems: "center",
-//           flexDirection: "row",
-//           columnGap: 8,
-//         }}
-//       >
-//         {(navigation.canGoBack()) && <MaterialCommunityIcons
-//           color={"#fff"}
-//           size={24}
-//           name="arrow-left"
-//           onPress={() => {
-//             if (navigation.canGoBack()) {
-//               navigation.goBack();
-//             }
-//           }}
-//         />}
-//         <Text style={{ color: "#fff", fontSize: 24, fontFamily: "SpaceMono", flex:1 }}>
-//           {title}
-//         </Text>
-
-//         <View>
-//         {right && right}
-//         </View>
-//       </View>
-//     </SafeAreaView>
-//   );

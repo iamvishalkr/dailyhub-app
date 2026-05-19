@@ -79,7 +79,7 @@ const AddScreen = () => {
       <View className="flex-1 px-4 ">
 
         <View className="mt-4 mb-2">
-          <Text className="text-xl">
+          <Text variant="titleMedium">
             {`Step : ${currentStep}/${stepTask.length} - ${
               stepTask[currentStep - 1]
             }`}

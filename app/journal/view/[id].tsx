@@ -1,7 +1,7 @@
 import { useJournalStore } from "@/zustand/journal.store";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
-import { Button, IconButton, Surface } from "react-native-paper";
+import { Button, IconButton, Surface, Text } from "react-native-paper";
 // import {
 //   AlertDialog,
 //   AlertDialogAction,
@@ -18,7 +18,7 @@ import Appbar from "@/components/Appbar";
 import { M3Input } from "@/components/ui/M3Input";
 import { showToast } from "@/utils/showToast";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const ViewJournalScreen = () => {
@@ -40,7 +40,7 @@ const ViewJournalScreen = () => {
   if (!journal) {
     return (
       <View className="flex-1 flex-col items-center justify-center">
-        <Text>Journal not found.</Text>
+        <Text variant="titleMedium">Journal not found.</Text>
         <View>
           <Button onPress={() => {}}>Go Back</Button>
         </View>

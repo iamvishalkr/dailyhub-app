@@ -47,8 +47,8 @@ const ScheduleStep = ({
         <Card.Title title="Start Date"></Card.Title>
         <Card.Content>
           {/* content */}
-          <View className="text-center">
-            <Text className="text-xl font-bold">
+          <View>
+            <Text variant="titleMedium" style={{textAlign:"center"}}>
               {selectedDate.toLocaleDateString("en-US", {
                 month: "long",
                 day: "numeric",

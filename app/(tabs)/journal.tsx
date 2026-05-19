@@ -46,10 +46,10 @@ const JournalPage = () => {
                 <Link href={`/journal/view/${journal.id}`}>
                 <Card className="w-full" mode="outlined">
                   <Card.Content>
-                  <Text className="font-medium text-sm text-muted-foreground">
+                  <Text variant="titleMedium">
                     {formattedDate}
                   </Text>
-                  <Text className="line-clamp-3 text-sm leading-relaxed whitespace-pre-wrap text-foreground">
+                  <Text variant="titleSmall" className="line-clamp-3 leading-relaxed whitespace-pre-wrap text-foreground">
                     {journal.content}
                   </Text>
                   </Card.Content>

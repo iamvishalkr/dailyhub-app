@@ -36,10 +36,10 @@ const DurationStep = ({
                   //   }`}
                 >
                   <Card
+                  mode="outlined"
                     style={{
                       borderColor:
                         formData.totalCount === item.days ? "teal" : "grey",
-                      borderWidth: 2,
                     }}
                   >
                     <Card.Title
@@ -48,7 +48,7 @@ const DurationStep = ({
                     <Card.Content>
                       <View className="flex-row items-center gap-2 mt-3">
                         <ThemedIcon name="trophy" size={20} />
-                        <Text>{item.trophy} Trophy</Text>
+                        <Text variant="titleSmall">{item.trophy} Trophy</Text>
                       </View>
                     </Card.Content>
                   </Card>

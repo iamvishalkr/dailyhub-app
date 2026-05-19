@@ -22,7 +22,7 @@ const ResonStep = ({
         <Card.Content>
           {/* content */}
           <View className="">
-            <Text className="mb-4">Why {`(Optional)`}</Text>
+            <Text variant="titleMedium" className="mb-4">Why {`(Optional)`}</Text>
             <M3Input
               className="border-b "
               placeholder="Remind Your Future Self"
