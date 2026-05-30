@@ -8,7 +8,14 @@ import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
-import { Button, Card, Surface, Text } from "react-native-paper";
+import {
+    Button,
+    Card,
+    Dialog,
+    Portal,
+    Surface,
+    Text,
+} from "react-native-paper";
 
 const ManageScreen = () => {
   const { id }: { id: string } = useLocalSearchParams();
@@ -24,6 +31,9 @@ const ManageScreen = () => {
     totalCount: 0,
     completedDates: [],
   } as StreakType);
+
+  const [isResetDiaOpen, setisResetDiaOpen] = useState(false);
+  const [isDeleteDiaOpen, setisDeleteDiaOpen] = useState(false);
 
   useEffect(() => {
     const targetStreak = streaksList.find((item) => item.id === Number(id));
@@ -95,10 +105,20 @@ const ManageScreen = () => {
             </View>
 
             <View className="flex-row gap-1">
-              <Button mode="outlined" onPress={handleReset}>
+              <Button
+                mode="outlined"
+                onPress={() => {
+                  setisResetDiaOpen(true);
+                }}
+              >
                 Reset
               </Button>
-              <Button mode="outlined" onPress={handleDelete}>
+              <Button
+                mode="outlined"
+                onPress={() => {
+                  setisDeleteDiaOpen(true);
+                }}
+              >
                 Delete
               </Button>
               <Button mode="contained" onPress={handleSave}>
@@ -106,38 +126,6 @@ const ManageScreen = () => {
               </Button>
             </View>
           </View>
-
-          {/* <div className="flex justify-between items-center">
-          <div className="header flex items-center gap-4">
-            <ArrowLeft
-              onClick={() => {
-                window.history.back();
-              }}
-            />
-            <h4 className="text-primary">{readonlyData.title}</h4>
-          </div>
-          <div className="desktop-actions hidden xl:block text-black space-x-1">
-            <ResetBtnDialog handleOk={handleReset} />
-            <DeleteBtnDialog handleOk={handleDelete} />
-            <Button onClick={handleSave}>
-              <Save /> Save
-            </Button>
-          </div>
-        </div> */}
-          {/* <div className="mobile-actions xl:hidden mt-2 mb-8 text-black flex justify-evenly">
-          <ResetBtnDialog handleOk={handleReset} />
-          <DeleteBtnDialog handleOk={handleDelete} />
-          <Button onClick={handleSave}>
-            <Save /> Save
-          </Button>
-        </div> */}
-
-          {/* <div className="flex justify-between items-center mt-8">
-          <div className="header flex items-center gap-4">
-            <PenBox />
-            <h4>Edit Details</h4>
-          </div>
-        </div> */}
 
           <Card mode="outlined">
             <Card.Content>
@@ -216,6 +204,62 @@ const ManageScreen = () => {
               </View>
             </Card.Content>
           </Card>
+
+          <Portal>
+            {/* RESTE STREAK DIALOG */}
+            <Dialog
+              visible={isResetDiaOpen}
+              onDismiss={() => {
+                setisResetDiaOpen(false);
+              }}
+            >
+              {/* <Dialog.Icon icon="alert" /> */}
+              <Dialog.Title>Reset</Dialog.Title>
+              <Dialog.Content>
+                <Text variant="bodyMedium">
+                  Are you sure to reset the streaks to 0?
+                </Text>
+              </Dialog.Content>
+              <Dialog.Actions>
+                <Button
+                  mode="contained"
+                  className="px-4"
+                  onPress={() => {
+                    handleReset();
+                    setisResetDiaOpen(false);
+                  }}
+                >
+                  Reset
+                </Button>
+              </Dialog.Actions>
+            </Dialog>
+
+            {/* DELETE DIALOG */}
+            <Dialog
+              visible={isDeleteDiaOpen}
+              onDismiss={() => {
+                setisDeleteDiaOpen(false);
+              }}
+            >
+              <Dialog.Icon icon="alert" />
+              <Dialog.Title>Delete</Dialog.Title>
+              <Dialog.Content>
+                <Text variant="bodyMedium">Are you sure to delete?</Text>
+              </Dialog.Content>
+              <Dialog.Actions>
+                <Button
+                  mode="outlined"
+                  className="px-4"
+                  onPress={() => {
+                    handleDelete();
+                    setisDeleteDiaOpen(false);
+                  }}
+                >
+                  Delete
+                </Button>
+              </Dialog.Actions>
+            </Dialog>
+          </Portal>
         </View>
       </Surface>
     )
