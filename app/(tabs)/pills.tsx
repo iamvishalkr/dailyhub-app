@@ -1,5 +1,6 @@
 import Appbar from "@/components/Appbar";
 import EmptyState from "@/components/EmptyState";
+import { M3Input } from "@/components/ui/M3Input";
 import { PillsType } from "@/types";
 import { usePillStore } from "@/zustand/pills.store";
 import { useRouter } from "expo-router";
@@ -8,7 +9,9 @@ import { FlatList, StyleSheet, View } from "react-native";
 import {
     Button,
     Card,
+    Dialog,
     IconButton,
+    Portal,
     Surface,
     Text,
     useTheme,
@@ -16,7 +19,8 @@ import {
 
 const PillsScreen = () => {
   const { pillsList, deletePill, updatePill } = usePillStore();
-  //   const [isInventoryDiaOpen, setIsInventoryDiaOpen] = useState(false);
+  const [isInventoryDiaOpen, setIsInventoryDiaOpen] = useState(false);
+  const [isDeleteDiaOpen, setisDeleteDiaOpen] = useState(false);
   const [selectedPill, setSelectedPill] = useState({} as PillsType);
   const router = useRouter();
 
@@ -66,11 +70,7 @@ const PillsScreen = () => {
                       <View className="">
                         <View className="flex-row items-center w-full">
                           <View className="flex-1">
-                            <Text
-                              variant="titleMedium"
-                            >
-                              {pill.name}
-                            </Text>
+                            <Text variant="titleMedium">{pill.name}</Text>
                           </View>
                           <View className="flex-row shrink-0 items-center gap-2">
                             <Text
@@ -89,17 +89,14 @@ const PillsScreen = () => {
                             <IconButton
                               mode="contained-tonal"
                               onPress={() => {
-                                deletePill(pill.id);
-                                //   if (confirm("Are you sure to delete?")) {
-                                //   }
+                                setSelectedPill(pill);
+                                setisDeleteDiaOpen(true);
                               }}
                               icon={"delete"}
                             ></IconButton>
                           </View>
                         </View>
-                        <Text variant="titleSmall">
-                          Taken as ({pill.unit})
-                        </Text>
+                        <Text variant="titleSmall">Taken as ({pill.unit})</Text>
                         <View className="flex-row justify-between w-full items-center">
                           <View className="flex-row items-center justify-center gap-4 mt-1">
                             {pill.frequency.shifts.map((m, i) => (
@@ -123,6 +120,7 @@ const PillsScreen = () => {
                               onPress={() => {
                                 setSelectedPill(pill);
                                 /** ==========TODO : NEW PAGE/ALERT TO EDIT INVENTORY OF SELECTED PILL  */
+                                setIsInventoryDiaOpen(true);
                               }}
                               icon={"plus"}
                             >
@@ -167,6 +165,71 @@ const PillsScreen = () => {
             {/* {pillsList.map((pill) => )} */}
           </View>
         )}
+
+        <Portal>
+          <Dialog
+            visible={isInventoryDiaOpen}
+            onDismiss={() => {
+              setIsInventoryDiaOpen(false);
+            }}
+          >
+            {/* <Dialog.Icon icon="alert" /> */}
+            <Dialog.Title>Inventory</Dialog.Title>
+            <Dialog.Content>
+              <Text variant="bodyMedium">Update Inventory Count</Text>
+              <View className="mt-2">
+                <M3Input
+                  value={String(selectedPill.inventory)}
+                  inputMode="numeric"
+                  onChangeText={(value) => {
+                    setSelectedPill({
+                      ...selectedPill,
+                      inventory: Number(value),
+                    });
+                  }}
+                />
+              </View>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button
+                mode="contained"
+                className="px-4"
+                onPress={() => {
+                  updatePill(selectedPill.id, selectedPill);
+                  setIsInventoryDiaOpen(false);
+                }}
+              >
+                Update
+              </Button>
+            </Dialog.Actions>
+          </Dialog>
+
+          {/* DELETE DIALOG */}
+          <Dialog
+            visible={isDeleteDiaOpen}
+            onDismiss={() => {
+              setisDeleteDiaOpen(false);
+            }}
+          >
+            <Dialog.Icon icon="alert" />
+            <Dialog.Title>Delete</Dialog.Title>
+            <Dialog.Content>
+              <Text variant="bodyMedium">Are you sure to delete?</Text>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button
+                mode="outlined"
+                className="px-4"
+                onPress={() => {
+                  deletePill(selectedPill.id);
+                  setisDeleteDiaOpen(false);
+                }}
+              >
+                Delete
+              </Button>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
       </View>
     </Surface>
   );
