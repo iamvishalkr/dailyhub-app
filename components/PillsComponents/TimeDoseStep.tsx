@@ -9,6 +9,7 @@ import { Button, Card } from "react-native-paper";
 //     SelectTrigger,
 //     SelectValue,
 // } from "../ui/select";
+import { AppFont } from "@/constants/paperConfig";
 import { useThemeStore } from "@/zustand/theme";
 import { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 import { Picker } from "@react-native-picker/picker";
@@ -209,7 +210,7 @@ const TimeDoseStep = ({
                             key={u}
                             label={u}
                             value={u}
-                            style={{ fontFamily: "SpaceMono" }}
+                            style={{ fontFamily: AppFont.fontFamily }}
                           />
                         ))}
                       </Picker>

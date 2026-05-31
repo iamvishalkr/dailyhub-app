@@ -1,3 +1,4 @@
+import { AppFont } from "@/constants/paperConfig";
 import React from "react";
 import type { TextInputProps } from "react-native-paper";
 import { TextInput } from "react-native-paper";
@@ -19,7 +20,7 @@ export function M3Input({ className, style, ...props }: TextInputProps) {
       //     className ?? ""
       //   }`}
       style={[
-        { fontFamily: "SpaceMono", height: 40, justifyContent: "center" },
+        { fontFamily: AppFont.fontFamily, height: 40, justifyContent: "center" },
         style,
       ]}
       {...props}

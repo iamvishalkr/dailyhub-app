@@ -1,21 +1,23 @@
 import { configureFonts } from "react-native-paper";
 
+export const AppFont = { fontFamily: "JetBrainsMonoRegular" } as const;
+
 const fonts_map = {
-  displayLarge: { fontFamily: "SpaceMono" },
-  displayMedium: { fontFamily: "SpaceMono" },
-  displaySmall: { fontFamily: "SpaceMono" },
-  headlineLarge: { fontFamily: "SpaceMono" },
-  headlineMedium: { fontFamily: "SpaceMono" },
-  headlineSmall: { fontFamily: "SpaceMono" },
-  titleLarge: { fontFamily: "SpaceMono" },
-  titleMedium: { fontFamily: "SpaceMono" },
-  titleSmall: { fontFamily: "SpaceMono" },
-  labelLarge: { fontFamily: "SpaceMono" },
-  labelMedium: { fontFamily: "SpaceMono" },
-  labelSmall: { fontFamily: "SpaceMono" },
-  bodyLarge: { fontFamily: "SpaceMono" },
-  bodyMedium: { fontFamily: "SpaceMono" },
-  bodySmall: { fontFamily: "SpaceMono" },
+  displayLarge: AppFont,
+  displayMedium: AppFont,
+  displaySmall: AppFont,
+  headlineLarge: AppFont,
+  headlineMedium: AppFont,
+  headlineSmall: AppFont,
+  titleLarge: AppFont,
+  titleMedium: AppFont,
+  titleSmall: AppFont,
+  labelLarge: AppFont,
+  labelMedium: AppFont,
+  labelSmall: AppFont,
+  bodyLarge: AppFont,
+  bodyMedium: AppFont,
+  bodySmall: AppFont,
 };
 
 export const paperConfig = {

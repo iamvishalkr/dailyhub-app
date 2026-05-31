@@ -1,11 +1,12 @@
 import Appbar from "@/components/Appbar";
-import { M3Input } from "@/components/ui/M3Input";
+// import { M3Input } from "@/components/ui/M3Input";
 import { JournalType } from "@/types";
 import { showToast } from "@/utils/showToast";
 import { useJournalStore } from "@/zustand/journal.store";
 import { useLocalSearchParams, useNavigation } from "expo-router";
-import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { ScrollView, StyleSheet, View } from "react-native";
+import Markdown from "react-native-markdown-renderer";
 import {
     Button,
     Dialog,
@@ -13,13 +14,19 @@ import {
     Portal,
     Surface,
     Text,
+    useTheme,
 } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+
+import { M3Input } from "@/components/ui/M3Input";
+import { AppFont } from "@/constants/paperConfig";
 
 const ViewJournalScreen = () => {
   const { id }: { id: string } = useLocalSearchParams();
   const { journals, updateJournal, deleteJournal } = useJournalStore();
   const navigation = useNavigation();
+  const hasSaved = useRef(false);
+  const theme = useTheme();
 
   const [targetJournal, setTargetJournal] = useState<JournalType | null>(null);
 
@@ -33,6 +40,12 @@ const ViewJournalScreen = () => {
       });
 
   const [isDeleteDiaOpen, setisDeleteDiaOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  // Sync the state value to a Ref so the listener can read it instantly
+  const isEditingRef = useRef(isEditing);
+  useEffect(() => {
+    isEditingRef.current = isEditing;
+  }, [isEditing]);
 
   useEffect(() => {
     const journal = journals.find((item) => item.id === Number(id));
@@ -58,26 +71,61 @@ const ViewJournalScreen = () => {
     }
   };
 
+  useEffect(() => {
+    const beforeF = async (e: any) => {
+      console.log(hasSaved.current);
+
+      console.log(hasSaved.current);
+      if (hasSaved.current || !isEditingRef.current) return;
+
+      e.preventDefault();
+
+      handleSave();
+
+      // 5. Break the loop and leave the page safely
+      hasSaved.current = true;
+      navigation.dispatch(e.data.action);
+    };
+    navigation.addListener("beforeRemove", beforeF);
+
+    return () => {
+      navigation.removeListener("beforeRemove", beforeF);
+    };
+  }, [navigation, handleSave]);
+
   return (
     <Surface className="flex-1">
       <Appbar
         title={dateStr}
         right={
-          <IconButton
-            mode="contained-tonal"
-            icon={"delete"}
-            size={24}
-            onPress={() => {
-              setisDeleteDiaOpen(true);
-            }}
-          />
+          <>
+            <IconButton
+              mode={isEditing ? "contained" : "contained-tonal"}
+              icon={isEditing ? "check" : "pen"}
+              size={24}
+              onPress={() => {
+                if (isEditing) {
+                  handleSave();
+                }
+                setIsEditing(!isEditing);
+              }}
+            />
+            <IconButton
+              mode="contained-tonal"
+              icon={"delete"}
+              size={24}
+              onPress={() => {
+                setisDeleteDiaOpen(true);
+              }}
+            />
+          </>
         }
       />
 
-      <SafeAreaView className="flex-1" edges={["bottom"]}>
+      <SafeAreaView style={{ flex: 1 }} edges={["bottom"]}>
         {targetJournal && (
-          <View className="h-80_ p-4">
-            <M3Input
+          <View className="p-4" style={{ flex: 1 }}>
+            {/* <M3Input
               style={{ height: 400 }}
               multiline={true}
               numberOfLines={8}
@@ -86,13 +134,46 @@ const ViewJournalScreen = () => {
               onChangeText={(value) =>
                 setTargetJournal({ ...targetJournal, content: value })
               }
-            />
+            /> */}
+            {!isEditing ? (
+              <ScrollView style={{ flex: 1 }}>
+                <Markdown
+                  style={{
+                    text: {
+                      fontFamily: AppFont.fontFamily,
+                      color: theme.colors.onBackground,
+                    },
+                    strong: {
+                      fontFamily: "JetBrainsMonoBold", //==== TODO ===== Explicitly link your bold file name
+                      fontWeight: "normal", // Reset this so Android doesn't look for double bold
+                    },
+                    em: {
+                      fontFamily: "JetBrainsMonoItalic", //==== TODO ===== Explicitly link your italic file name
+                      fontStyle: "normal", // Reset this so it doesn't double-slant
+                    },
+                  }}
+                >
+                  {targetJournal.content}
+                </Markdown>
+              </ScrollView>
+            ) : (
+              <M3Input
+                style={{ flex: 0.5, paddingTop: 8 }}
+                multiline={true}
+                numberOfLines={8}
+                textAlignVertical="top"
+                value={targetJournal.content}
+                onChangeText={(value) =>
+                  setTargetJournal({ ...targetJournal, content: value })
+                }
+              />
+            )}
 
-            <View className="mt-4 flex justify-end">
+            {/* <View className="mt-4 flex justify-end">
               <Button mode="contained" onPress={handleSave}>
                 Save Changes
               </Button>
-            </View>
+            </View> */}
           </View>
         )}
       </SafeAreaView>

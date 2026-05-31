@@ -1,4 +1,3 @@
-// import { setAudioModeAsync } from 'expo-audio'; // or expo-audio
 import { paperConfig } from "@/constants/paperConfig";
 import "@/global.css";
 import { useThemeStore } from "@/zustand/theme";
@@ -81,7 +80,9 @@ try {
 
 export default function RootLayout() {
   const [loaded, error] = useFonts({
-    SpaceMono: require("../assets/fonts/JetBrainsMonoNL-Regular.ttf"),
+    JetBrainsMonoRegular: require("../assets/fonts/JetBrainsMono-Regular.ttf"),
+    JetBrainsMonoBold: require("../assets/fonts/JetBrainsMono-Bold.ttf"),
+    JetBrainsMonoItalic: require("../assets/fonts/JetBrainsMono-Italic.ttf"),
   });
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
@@ -134,7 +135,7 @@ function RootLayoutNav() {
       <Surface className="flex-1">
         <Stack
           screenOptions={{
-            statusBarStyle: "dark",
+            statusBarStyle: themeStore === "dark" ? "light":"dark",
             headerShown: false,
           }}
         >

@@ -77,12 +77,10 @@ const PillsScreen = () => {
                               style={{
                                 borderWidth: 1,
                                 borderColor: theme.colors.onBackground,
-                                fontFamily: "SpaceMono",
                                 paddingHorizontal: 8,
                                 borderRadius: 20,
                               }}
                               className="capitalize"
-                              //   style={{ fontFamily: "SpaceMono" }}
                             >
                               {pill.frequency.type}
                             </Text>
@@ -104,7 +102,6 @@ const PillsScreen = () => {
                                 style={{
                                   borderWidth: 1,
                                   borderColor: theme.colors.onBackground,
-                                  fontFamily: "SpaceMono",
                                   paddingHorizontal: 8,
                                   borderRadius: 20,
                                 }}
