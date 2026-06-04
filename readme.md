@@ -1,4 +1,27 @@
-# DailyHub
+<p align="center">
+<img src="assets/images/icon.png" width="100px" height="100px">
+
+</p>
+
+<div align="center">
+  <h1>DailyHub</h1>
+</div>
+<p align="center">Daily Productivty App</p>
+
+<p align="center">
+<img src="https://img.shields.io/badge/version-v1.0.0-blue">
+<img src="https://img.shields.io/badge/node-v.22+-brightgreen" alt="license" />
+<a href="https://opensource.org/licenses/"><img src="https://img.shields.io/badge/License-GPL%20v3-green.svg" alt="license" /></a>
+</p>
+
+<p align="center">
+<img src="https://img.shields.io/badge/react--native-black?logo=react">
+<img src="https://img.shields.io/badge/expo-black?logo=expo">
+<img src="https://img.shields.io/badge/uniwind-black?logo=tailwindcss">
+<img src="https://img.shields.io/badge/react--native--paper-black?logo=materialdesign">
+</p>
+
+<br />
 
 **DailyHub** is a clean and minimal daily productivity companion built with React Native + Expo.  
 It started as a habit tracker, but brings together multiple simple tools to help organize your everyday life.
@@ -94,7 +117,7 @@ cd dailyhub
 Install dependencies:
 
 ```bash
-npm install
+pnpm install
 ```
 
 Start development server:
