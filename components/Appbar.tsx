@@ -6,16 +6,16 @@ import { Appbar as AppbarView } from "react-native-paper";
 const Appbar = ({
   right,
   title,
-  hasBack = true,
+  hideBack = false
 }: {
   title: string;
   right?: React.ReactNode;
-  hasBack?: boolean;
+  hideBack?: boolean
 }) => {
   const navigation = useNavigation();
   return (
     <AppbarView.Header elevated={true}>
-      {navigation.canGoBack() && (
+      {!hideBack && (
         <AppbarView.BackAction
           onPress={() => {
             if (navigation.canGoBack()) {
@@ -24,7 +24,7 @@ const Appbar = ({
           }}
         />
       )}
-      <AppbarView.Content  title={title} />
+      <AppbarView.Content title={title} />
       {right}
       {/* <AppbarView.Action icon="calendar" onPress={() => {}} /> */}
       {/* <AppbarView.Action icon="magnify" onPress={() => {}} /> */}

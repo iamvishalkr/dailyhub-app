@@ -19,6 +19,7 @@ const StreakScreen = () => {
   return (
     <Surface style={{ flex: 1 }}>
       <Appbar
+        hideBack={true}
         title={"DailyHub"}
         right={
           <View className="flex-row items-center">

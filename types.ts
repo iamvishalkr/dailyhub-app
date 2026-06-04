@@ -18,6 +18,7 @@ export type JournalType = {
   id: number;
   dateMs: number;
   content: string;
+  title?:string;
 };
 
 export type ExpenseType = {

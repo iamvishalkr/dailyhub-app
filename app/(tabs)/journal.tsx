@@ -1,4 +1,3 @@
-
 import EmptyState from "@/components/EmptyState";
 import { useJournalStore } from "@/zustand/journal.store";
 import { Card } from "react-native-paper";
@@ -11,54 +10,74 @@ import { IconButton, Surface, Text } from "react-native-paper";
 
 const JournalPage = () => {
   const { journals } = useJournalStore();
-  const router = useRouter()
+  const router = useRouter();
   return (
     <Surface style={{ flex: 1 }}>
       <Appbar
         title="Journal"
         right={
           <View className="flex-row">
-            <IconButton mode="contained-tonal" icon={"cog"} size={24} onPress={()=>{
-                router.push("/journal/settings")
-            }}/>
-            <IconButton mode="contained-tonal" icon={"plus"} size={24} onPress={()=>{
-                router.push("/journal/add")
-            }}/>
-            
+            <IconButton
+              mode="contained-tonal"
+              icon={"cog"}
+              size={24}
+              onPress={() => {
+                router.push("/journal/settings");
+              }}
+            />
+            <IconButton
+              mode="contained-tonal"
+              icon={"plus"}
+              size={24}
+              onPress={() => {
+                router.push("/journal/add");
+              }}
+            />
           </View>
         }
       />
-      <View style={{ flex: 1 }}>
-        {journals.length > 0 && <FlatList
-          data={journals}
-          keyExtractor={(j) => String(j.id)}
-          renderItem={({ item: journal }) => {
-            const dateObj = new Date(journal.dateMs);
-            const formattedDate = dateObj.toLocaleDateString(undefined, {
-              weekday: "short",
-              month: "short",
-              day: "numeric",
-              year: "numeric",
-            });
+      <View style={{ flex: 1, paddingTop:8 }}>
+        {journals.length > 0 && (
+          <FlatList
+            data={journals}
+            keyExtractor={(j) => String(j.id)}
+            renderItem={({ item: journal }) => {
+              const dateObj = new Date(journal.dateMs);
+              const formattedDate = dateObj.toLocaleDateString(undefined, {
+                weekday: "short",
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              });
+              const formattedDateTime = dateObj.toLocaleTimeString(undefined, {
+                hour: "numeric",
+                minute: "numeric",
+                hour12: true,
+              });
 
-            return (
-              <View className="py-2 px-3">
-                <Link href={`/journal/view/${journal.id}`}>
-                <Card className="w-full" mode="outlined">
-                  <Card.Content>
-                  <Text variant="titleMedium">
-                    {formattedDate}
-                  </Text>
-                  <Text variant="titleSmall" className="line-clamp-3 leading-relaxed whitespace-pre-wrap text-foreground">
-                    {journal.content}
-                  </Text>
-                  </Card.Content>
-                </Card>
-              </Link>
-              </View>
-            );
-          }}
-        />}
+              return (
+                <View className="py-2 px-3">
+                  <Link href={`/journal/view/${journal.id}`}>
+                    <Card className="w-full" mode="outlined">
+                      <Card.Content>
+                        <View className="flex-row justify-between items-center mb-2">
+                        <Text variant="titleMedium">{formattedDate}</Text>
+                        <Text variant="titleSmall">{formattedDateTime}</Text>
+                        </View>
+                        <Text
+                          variant="titleSmall"
+                          className="line-clamp-3 leading-relaxed whitespace-pre-wrap text-foreground"
+                        >
+                          {journal.content}
+                        </Text>
+                      </Card.Content>
+                    </Card>
+                  </Link>
+                </View>
+              );
+            }}
+          />
+        )}
 
         {/* {journals.map((journal) => {
           const dateObj = new Date(journal.dateMs);
@@ -86,14 +105,14 @@ const JournalPage = () => {
         {journals.length === 0 && (
           <View className="p-4">
             <EmptyState
-            Logo="file-edit"
-            title="No journal entries yet."
-            subtitle="Start writing your thoughts today!"
-            btnText="Create Journal"
-            onPress={()=>{
-                router.push("/journal/add")
-            }}
-          />
+              Logo="file-edit"
+              title="No journal entries yet."
+              subtitle="Start writing your thoughts today!"
+              btnText="Create Journal"
+              onPress={() => {
+                router.push("/journal/add");
+              }}
+            />
           </View>
         )}
       </View>

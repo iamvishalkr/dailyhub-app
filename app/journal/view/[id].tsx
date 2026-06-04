@@ -5,7 +5,12 @@ import { showToast } from "@/utils/showToast";
 import { useJournalStore } from "@/zustand/journal.store";
 import { useLocalSearchParams, useNavigation } from "expo-router";
 import React, { useEffect, useRef, useState } from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import {
+    Keyboard,
+    ScrollView,
+    StyleSheet,
+    View
+} from "react-native";
 import Markdown from "react-native-markdown-renderer";
 import {
     Button,
@@ -39,6 +44,7 @@ const ViewJournalScreen = () => {
         year: "numeric",
       });
 
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
   const [isDeleteDiaOpen, setisDeleteDiaOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   // Sync the state value to a Ref so the listener can read it instantly
@@ -93,7 +99,22 @@ const ViewJournalScreen = () => {
     };
   }, [navigation, handleSave]);
 
-  return (
+  useEffect(() => {
+    // Listeners for Android
+    const showSubscription = Keyboard.addListener("keyboardDidShow", (e) => {
+      setKeyboardHeight(e.endCoordinates.height);
+    });
+    const hideSubscription = Keyboard.addListener("keyboardDidHide", () => {
+      setKeyboardHeight(0);
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, []);
+
+  return (<>
     <Surface className="flex-1">
       <Appbar
         title={dateStr}
@@ -124,7 +145,7 @@ const ViewJournalScreen = () => {
 
       <SafeAreaView style={{ flex: 1 }} edges={["bottom"]}>
         {targetJournal && (
-          <View className="p-4" style={{ flex: 1 }}>
+          <View  className="flex-1 px-4 pt-4">
             {/* <M3Input
               style={{ height: 400 }}
               multiline={true}
@@ -157,27 +178,42 @@ const ViewJournalScreen = () => {
                 </Markdown>
               </ScrollView>
             ) : (
-              <M3Input
-                style={{ flex: 0.5, paddingTop: 8 }}
-                multiline={true}
-                numberOfLines={8}
-                textAlignVertical="top"
-                value={targetJournal.content}
-                onChangeText={(value) =>
-                  setTargetJournal({ ...targetJournal, content: value })
-                }
-              />
+                <M3Input
+                    style={{ flex: 1, marginBottom:keyboardHeight }}
+                    multiline={true}
+                    textAlignVertical="top"
+                    value={targetJournal.content}
+                    onChangeText={(value) =>
+                      setTargetJournal({ ...targetJournal, content: value })
+                    }
+                  />
+            //   <KeyboardAvoidingView
+            //     behavior={Platform.OS === "ios" ? "padding" : "height"}
+            //     style={{ flex: 1, }}
+            //     keyboardVerticalOffset={
+            //       Platform.OS === "ios" ? 0 : Math.floor(keyboardHeight/2)
+            //     } // Adjust offset if needed
+            //   >
+            //     <ScrollView
+            //       contentContainerStyle={{ flex: 1 }}
+            //     //   keyboardShouldPersistTaps="handled"
+            //     >
+            //       <M3Input
+            //         style={{ flex: 1 }}
+            //         multiline={true}
+            //         textAlignVertical="top"
+            //         value={targetJournal.content}
+            //         onChangeText={(value) =>
+            //           setTargetJournal({ ...targetJournal, content: value })
+            //         }
+            //       />
+            //     </ScrollView>
+            //   </KeyboardAvoidingView>
             )}
-
-            {/* <View className="mt-4 flex justify-end">
-              <Button mode="contained" onPress={handleSave}>
-                Save Changes
-              </Button>
-            </View> */}
           </View>
         )}
       </SafeAreaView>
-
+      </Surface>
       <Portal>
         {/* DELETE DIALOG */}
         <Dialog
@@ -205,7 +241,7 @@ const ViewJournalScreen = () => {
           </Dialog.Actions>
         </Dialog>
       </Portal>
-    </Surface>
+    </>
   );
 };
 
